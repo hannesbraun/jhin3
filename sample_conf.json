@@ -1,0 +1,17 @@
+{
+    "soundboard_name": "Sample Soundboard",
+    "resource_folder": "/home/moin",
+    "sounds": {
+        " ": {
+            "filename": "sound name goes here",
+            "description": "i'm a description.",
+            "active": true,
+            "type": "normal",
+            "terminate": true,
+            "fadein": 4.2,
+            "fadeout": 0.0,
+            "volume": 1.0,
+            "balance": 0.5
+        }
+    }
+}
