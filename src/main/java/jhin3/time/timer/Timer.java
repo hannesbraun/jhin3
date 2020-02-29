@@ -58,16 +58,6 @@ public class Timer {
 		return (int) (progress * progressMax);
 	}
 
-	public synchronized boolean is75Over() {
-		stopIfFinished();
-		return getElapsed() > duration * 0.75;
-	}
-
-	public synchronized boolean is90Over() {
-		stopIfFinished();
-		return getElapsed() > duration * 0.9;
-	}
-
 	public synchronized boolean isFinished() {
 		stopIfFinished();
 		return getRemaining() == 0;

@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.PropertyTheme;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.GridLayout.Alignment;
@@ -20,7 +19,6 @@ import com.googlecode.lanterna.input.KeyStroke;
 import jhin3.time.stopwatch.Stopwatch;
 import jhin3.time.timer.Timer;
 import jhin3.tui.misc.TimerFormatter;
-import jhin3.tui.theme.ProgressBarThemeHelper;
 
 public class TimeWindow extends AbstractJhinWindow {
 
@@ -252,26 +250,6 @@ public class TimeWindow extends AbstractJhinWindow {
 				"[E] " + TimerFormatter.format(timer.getElapsed()) + " ");
 		timerRemaining
 				.setText("[R] " + TimerFormatter.format(timer.getRemaining()));
-
-		if (timer.isFinished()) {
-			timerProgressBar
-					.setTheme(new PropertyTheme(
-							ProgressBarThemeHelper.getProperties(
-									TextColor.ANSI.BLACK, TextColor.ANSI.BLUE),
-							false));
-		} else if (timer.is90Over()) {
-			timerProgressBar
-					.setTheme(new PropertyTheme(
-							ProgressBarThemeHelper.getProperties(
-									TextColor.ANSI.BLACK, TextColor.ANSI.RED),
-							false));
-		} else if (timer.is75Over()) {
-			timerProgressBar.setTheme(new PropertyTheme(ProgressBarThemeHelper
-					.getProperties(TextColor.ANSI.BLACK, TextColor.ANSI.YELLOW),
-					false));
-		} else {
-			timerProgressBar.setTheme(getTextGUI().getTheme());
-		}
 	}
 
 	@Override
