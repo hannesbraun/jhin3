@@ -1,4 +1,4 @@
-package jhin3.tui;
+package jhin3.tui.misc;
 
 import java.util.ArrayList;
 import java.util.Iterator;

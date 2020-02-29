@@ -11,6 +11,7 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import jhin3.soundboard.Soundboard;
+import jhin3.tui.misc.JhinTerminalResizeListener;
 import jhin3.tui.window.SoundboardWindow;
 import jhin3.tui.window.TimeWindow;
 
