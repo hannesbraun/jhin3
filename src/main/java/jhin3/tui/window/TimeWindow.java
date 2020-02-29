@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.GridLayout.Alignment;
@@ -118,9 +117,6 @@ public class TimeWindow extends AbstractJhinWindow {
 
 		currentDate = new Label(dateTime.format(dateFormatter));
 		currentTime = new Label(dateTime.format(timeFormatter));
-
-		currentDate.setForegroundColor(TextColor.ANSI.WHITE);
-		currentTime.setForegroundColor(TextColor.ANSI.WHITE);
 
 		dateTimePanel.addComponent(currentDate);
 		dateTimePanel.addComponent(currentTime);
