@@ -111,11 +111,13 @@ public class TimeWindow extends AbstractJhinWindow {
 	}
 
 	private void addCurrentDateTime() {
+		LocalDateTime dateTime = LocalDateTime.now();
+
 		dateTimePanel = new Panel();
 		dateTimePanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
 
-		currentDate = new Label("The stage ");
-		currentTime = new Label("is set.");
+		currentDate = new Label(dateTime.format(dateFormatter));
+		currentTime = new Label(dateTime.format(timeFormatter));
 
 		currentDate.setForegroundColor(TextColor.ANSI.WHITE);
 		currentTime.setForegroundColor(TextColor.ANSI.WHITE);
