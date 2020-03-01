@@ -48,13 +48,25 @@ public class Timer {
 		return duration - getElapsed();
 	}
 
-	public long getTotal() {
+	public long getDuration() {
 		return duration;
+	}
+
+	public void setDuration(long milliseconds) {
+		this.duration = milliseconds;
 	}
 
 	public synchronized int getProgress() {
 		stopIfFinished();
-		double progress = (double) getElapsed() / (double) getTotal();
+
+		double progress;
+
+		if (duration != 0.0) {
+			progress = (double) getElapsed() / (double) duration;
+		} else {
+			progress = 0.0;
+		}
+
 		return (int) (progress * progressMax);
 	}
 

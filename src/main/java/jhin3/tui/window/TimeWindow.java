@@ -13,11 +13,14 @@ import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.ProgressBar;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
+import com.googlecode.lanterna.gui2.dialogs.TextInputDialog;
+import com.googlecode.lanterna.gui2.dialogs.TextInputDialogBuilder;
 import com.googlecode.lanterna.input.KeyStroke;
 
 import jhin3.time.stopwatch.Stopwatch;
 import jhin3.time.timer.Timer;
 import jhin3.tui.misc.TimerFormatter;
+import jhin3.tui.misc.TimerLengthValidator;
 
 public class TimeWindow extends AbstractJhinWindow {
 
@@ -243,7 +246,7 @@ public class TimeWindow extends AbstractJhinWindow {
 	private void updateTimerUI() {
 		timerProgressBar.setValue(timer.getProgress());
 		timerTotal.setText(
-				"[T] " + TimerFormatter.format(timer.getTotal()) + " ");
+				"[T] " + TimerFormatter.format(timer.getDuration()) + " ");
 		timerElapsed.setText(
 				"[E] " + TimerFormatter.format(timer.getElapsed()) + " ");
 		timerRemaining
@@ -262,6 +265,9 @@ public class TimeWindow extends AbstractJhinWindow {
 					return true;
 				case 'c' :
 					timer.reset();
+					return true;
+				case 'x' :
+					setTimerLength();
 					return true;
 
 				// Stopwatches
@@ -294,5 +300,32 @@ public class TimeWindow extends AbstractJhinWindow {
 
 		// Other cases
 		return super.handleInput(key);
+	}
+
+	private void setTimerLength() {
+		getTextGUI().getGUIThread().invokeLater(() -> {
+			// Set dialog preferences
+			TextInputDialogBuilder dialogBuilder = new TextInputDialogBuilder();
+			dialogBuilder.setTitle("Set new timer length");
+			dialogBuilder.setDescription(
+					"Please enter the new timer length in the format HH:mm:ss.");
+			dialogBuilder.setInitialContent("00:20:00");
+			dialogBuilder.setPasswordInput(false);
+			dialogBuilder.setTextBoxSize(new TerminalSize(8, 1));
+			dialogBuilder.setValidator(new TimerLengthValidator());
+
+			// Build dialog
+			TextInputDialog dialog = dialogBuilder.build();
+
+			// Get input values
+			String newLength = dialog.showDialog(getTextGUI());
+			String[] values = newLength.split(":");
+
+			// Calculate and set duration
+			long duration = Long.parseLong(values[0]) * 3600000;
+			duration += Long.parseLong(values[1]) * 60000;
+			duration += Long.parseLong(values[2]) * 1000;
+			timer.setDuration(duration);
+		});
 	}
 }
