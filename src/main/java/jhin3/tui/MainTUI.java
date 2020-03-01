@@ -3,7 +3,6 @@ package jhin3.tui;
 import java.io.IOException;
 
 import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.bundle.LanternaThemes;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.screen.TerminalScreen;
@@ -12,10 +11,14 @@ import com.googlecode.lanterna.terminal.Terminal;
 
 import jhin3.soundboard.Soundboard;
 import jhin3.tui.misc.JhinTerminalResizeListener;
+import jhin3.tui.misc.ThemeLoader;
 import jhin3.tui.window.SoundboardWindow;
 import jhin3.tui.window.TimeWindow;
 
 public class MainTUI {
+
+	private String theme;
+
 	public void exec(String configFile) {
 
 		Soundboard soundboard = new Soundboard(configFile);
@@ -24,6 +27,8 @@ public class MainTUI {
 		Terminal terminal;
 		TerminalScreen screen;
 		WindowBasedTextGUI gui;
+
+		ThemeLoader themeLoader = new ThemeLoader(theme);
 
 		SoundboardWindow soundboardWindow;
 		TimeWindow timeWindow;
@@ -36,7 +41,7 @@ public class MainTUI {
 			gui = new MultiWindowTextGUI(screen, TextColor.ANSI.BLACK);
 			screen.startScreen();
 
-			gui.setTheme(LanternaThemes.getRegisteredTheme("businessmachine"));
+			gui.setTheme(themeLoader.getTheme());
 
 			soundboardWindow = new SoundboardWindow(terminal.getTerminalSize(),
 					soundboard);
@@ -62,5 +67,9 @@ public class MainTUI {
 		}
 
 		soundboard.kill();
+	}
+
+	public void setTheme(String theme) {
+		this.theme = theme;
 	}
 }

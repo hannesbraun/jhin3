@@ -24,14 +24,20 @@ public class Main {
 		try {
 			cmd = parser.parse(options, args);
 
-			// Set buffer length for audio
 			if (cmd.hasOption('b')) {
+				// Set buffer length for audio
 				Sound.setBufferLength(
 						Float.parseFloat(cmd.getOptionValue('b')));
 			}
 
+			MainTUI tui = new MainTUI();
+
+			if (cmd.hasOption('t')) {
+				// Set theme
+				tui.setTheme(cmd.getOptionValue('t'));
+			}
+
 			if (cmd.hasOption('c')) {
-				MainTUI tui = new MainTUI();
 				tui.exec(cmd.getOptionValue('c'));
 			} else {
 				// No config file: starting application impossible
