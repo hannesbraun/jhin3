@@ -319,13 +319,16 @@ public class TimeWindow extends AbstractJhinWindow {
 
 			// Get input values
 			String newLength = dialog.showDialog(getTextGUI());
-			String[] values = newLength.split(":");
 
-			// Calculate and set duration
-			long duration = Long.parseLong(values[0]) * 3600000;
-			duration += Long.parseLong(values[1]) * 60000;
-			duration += Long.parseLong(values[2]) * 1000;
-			timer.setDuration(duration);
+			if (newLength != null) {
+				String[] values = newLength.split(":");
+
+				// Calculate and set duration
+				long duration = Long.parseLong(values[0]) * 3600000;
+				duration += Long.parseLong(values[1]) * 60000;
+				duration += Long.parseLong(values[2]) * 1000;
+				timer.setDuration(duration);
+			}
 		});
 	}
 }
