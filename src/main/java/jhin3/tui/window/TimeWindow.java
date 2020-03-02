@@ -3,6 +3,8 @@ package jhin3.tui.window;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.apache.commons.lang3.mutable.MutableBoolean;
+
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.Direction;
@@ -24,6 +26,22 @@ import jhin3.tui.misc.TimerLengthValidator;
 
 public class TimeWindow extends AbstractJhinWindow {
 
+	private Timer timer;
+
+	private Stopwatch stopwatch1;
+
+	private Stopwatch stopwatch2;
+
+	private Stopwatch stopwatch3;
+
+	private Stopwatch stopwatch4;
+
+	private DateTimeFormatter dateFormatter;
+
+	private DateTimeFormatter timeFormatter;
+
+	// UI elements
+
 	private Panel mainPanel;
 
 	private Panel timerPanel;
@@ -31,8 +49,6 @@ public class TimeWindow extends AbstractJhinWindow {
 	private Panel dateTimePanel;
 
 	private Panel stopwatchPanel;
-
-	private Timer timer;
 
 	private ProgressBar timerProgressBar;
 
@@ -54,19 +70,7 @@ public class TimeWindow extends AbstractJhinWindow {
 
 	private Label stopwatchLabel4;
 
-	private Stopwatch stopwatch1;
-
-	private Stopwatch stopwatch2;
-
-	private Stopwatch stopwatch3;
-
-	private Stopwatch stopwatch4;
-
-	private DateTimeFormatter dateFormatter;
-
-	private DateTimeFormatter timeFormatter;
-
-	public TimeWindow(TerminalSize terminalSize) {
+	public TimeWindow(TerminalSize terminalSize, MutableBoolean guiRunning) {
 		super("Time", terminalSize);
 
 		// Timer initialization (default 20 minutes)
@@ -96,8 +100,13 @@ public class TimeWindow extends AbstractJhinWindow {
 
 		setComponent(mainPanel);
 
-		new Thread(() -> mainUpdateLoop()).start();
+		if (guiRunning != null) {
+			this.guiRunning = guiRunning;
+		} else {
+			this.guiRunning = new MutableBoolean(false);
+		}
 
+		new Thread(() -> mainUpdateLoop()).start();
 	}
 
 	@Override
@@ -191,7 +200,10 @@ public class TimeWindow extends AbstractJhinWindow {
 				e.printStackTrace();
 				// Just try to repeat
 			}
-		} while (true);
+		} while (guiRunning.isTrue());
+
+		// Close window (gui is not running anymore)
+		close();
 	}
 
 	private void updateTimer() {

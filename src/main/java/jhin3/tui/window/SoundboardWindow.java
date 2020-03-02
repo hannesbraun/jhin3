@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang3.mutable.MutableBoolean;
+
 import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
@@ -32,7 +34,8 @@ public class SoundboardWindow extends AbstractJhinWindow {
 	private static String fadeoutString = String
 			.valueOf(Symbols.TRIANGLE_DOWN_POINTING_BLACK);
 
-	public SoundboardWindow(TerminalSize terminalSize, Soundboard soundboard) {
+	public SoundboardWindow(TerminalSize terminalSize, Soundboard soundboard,
+			MutableBoolean guiRunning) {
 		super("Soundboard", terminalSize);
 		this.soundboard = soundboard;
 		this.keys = soundboard.getKeyList();
@@ -62,6 +65,12 @@ public class SoundboardWindow extends AbstractJhinWindow {
 		}
 
 		setComponent(table);
+
+		if (guiRunning != null) {
+			this.guiRunning = guiRunning;
+		} else {
+			this.guiRunning = new MutableBoolean(false);
+		}
 
 		new Thread(() -> mainUpdateLoop()).start();
 	}
@@ -138,7 +147,10 @@ public class SoundboardWindow extends AbstractJhinWindow {
 				e.printStackTrace();
 			}
 
-		} while (true);
+		} while (guiRunning.isTrue());
+
+		// Close window (gui is not running anymore)
+		close();
 	}
 
 	private String stateToString(State state) {

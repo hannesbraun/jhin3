@@ -2,6 +2,8 @@ package jhin3.tui;
 
 import java.io.IOException;
 
+import org.apache.commons.lang3.mutable.MutableBoolean;
+
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
@@ -22,6 +24,8 @@ public class MainTUI {
 	public void exec(String configFile) {
 
 		Soundboard soundboard = new Soundboard(configFile);
+
+		MutableBoolean guiRunning = new MutableBoolean(true);
 
 		DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
 		Terminal terminal;
@@ -44,8 +48,8 @@ public class MainTUI {
 			gui.setTheme(themeLoader.getTheme());
 
 			soundboardWindow = new SoundboardWindow(terminal.getTerminalSize(),
-					soundboard);
-			timeWindow = new TimeWindow(terminal.getTerminalSize());
+					soundboard, guiRunning);
+			timeWindow = new TimeWindow(terminal.getTerminalSize(), guiRunning);
 
 			// Enable resizing of the inner windows
 			resizeListener = new JhinTerminalResizeListener(
