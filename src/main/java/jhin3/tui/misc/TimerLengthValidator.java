@@ -9,9 +9,9 @@ public class TimerLengthValidator implements TextInputDialogResultValidator {
 		if (content.matches("^[0-9]{2}(:[0-5][0-9]){2}$")) {
 			return null;
 		} else if (content.matches("^[0-9]{2}(:[0-9]{2}){2}$")) {
-			return "Invalid value for minutes and/or seconds.";
+			return "Invalid value for minutes and/or seconds";
 		} else {
-			return "Invalid format";
+			return "Invalid format, must be HH:mm:ss";
 		}
 	}
 

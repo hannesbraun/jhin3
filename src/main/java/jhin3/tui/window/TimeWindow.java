@@ -319,9 +319,8 @@ public class TimeWindow extends AbstractJhinWindow {
 			// Set dialog preferences
 			TextInputDialogBuilder dialogBuilder = new TextInputDialogBuilder();
 			dialogBuilder.setTitle("Set new timer length");
-			dialogBuilder.setDescription(
-					"Please enter the new timer length in the format HH:mm:ss.");
-			dialogBuilder.setInitialContent("00:20:00");
+			dialogBuilder
+					.setInitialContent(timerTotal.getText().substring(4, 12));
 			dialogBuilder.setPasswordInput(false);
 			dialogBuilder.setTextBoxSize(new TerminalSize(8, 1));
 			dialogBuilder.setValidator(new TimerLengthValidator());
