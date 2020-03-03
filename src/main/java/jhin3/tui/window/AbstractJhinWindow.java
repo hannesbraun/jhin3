@@ -29,7 +29,7 @@ public abstract class AbstractJhinWindow extends BasicWindow
 	@Override
 	public boolean handleInput(KeyStroke key) {
 		if (key.isCtrlDown() && key.getCharacter() != null) {
-			if (key.getCharacter() == '\t') {
+			if (key.getCharacter() == 'f') {
 				// Switch window
 				getTextGUI().cycleActiveWindow(false);
 				return true;
