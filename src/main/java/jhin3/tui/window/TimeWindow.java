@@ -87,10 +87,11 @@ public class TimeWindow extends AbstractJhinWindow {
 		timeFormatter = DateTimeFormatter.ofPattern(" HH:mm:ss ");
 
 		mainPanel = new Panel();
-		mainPanel.setLayoutManager(new GridLayout(3));
-		mainPanel.setLayoutData(GridLayout.createLayoutData(Alignment.CENTER,
-				Alignment.CENTER, true, false));
+		GridLayout mainLayout = new GridLayout(3);
+		mainLayout.setHorizontalSpacing(1);
+		mainPanel.setLayoutManager(mainLayout);
 
+		// Add content (UI elements)
 		addTimerControl();
 		mainPanel.addComponent(timerPanel);
 		addCurrentDateTime();
@@ -106,6 +107,9 @@ public class TimeWindow extends AbstractJhinWindow {
 			this.guiRunning = new MutableBoolean(false);
 		}
 
+		// Update the size of the progress bar
+		updateSize(terminalSize);
+
 		new Thread(() -> mainUpdateLoop()).start();
 	}
 
@@ -119,13 +123,21 @@ public class TimeWindow extends AbstractJhinWindow {
 	public void updateSize(TerminalSize newSize) {
 		setSize(new TerminalSize(newSize.getColumns() - 2,
 				WindowLayoutHelper.getTimeHeight()));
+
+		if (timerProgressBar != null) {
+			int timerProgressBarWidth = (newSize.getColumns() - 2) / 2 + 1;
+			timerProgressBar.setPreferredWidth(timerProgressBarWidth);
+		}
 	}
 
 	private void addCurrentDateTime() {
 		LocalDateTime dateTime = LocalDateTime.now();
 
+		// Create panel and center in main layout
 		dateTimePanel = new Panel();
 		dateTimePanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
+		dateTimePanel.setLayoutData(GridLayout.createLayoutData(
+				Alignment.CENTER, Alignment.CENTER, false, false));
 
 		currentDate = new Label(dateTime.format(dateFormatter));
 		currentTime = new Label(dateTime.format(timeFormatter));
@@ -135,20 +147,28 @@ public class TimeWindow extends AbstractJhinWindow {
 	}
 
 	private void addTimerControl() {
+		// Create panel and center in main layout
 		timerPanel = new Panel();
 		timerPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
+		timerPanel.setLayoutData(GridLayout.createLayoutData(Alignment.CENTER,
+				Alignment.CENTER, true, false));
 
+		// Create text panel and center in the timer section
 		Panel textPanel = new Panel();
-		textPanel.setLayoutManager(new LinearLayout(Direction.HORIZONTAL));
+		LinearLayout textLayout = new LinearLayout(Direction.HORIZONTAL);
+		textLayout.setSpacing(2);
+		textPanel.setLayoutManager(textLayout);
+		textPanel.setLayoutData(
+				LinearLayout.createLayoutData(LinearLayout.Alignment.Center));
 
 		timerProgressBar = new ProgressBar();
 		timerProgressBar.setLabelFormat("");
 		timerProgressBar.setMin(0);
 		timerProgressBar.setMax(Timer.progressMax);
-		timerProgressBar.setPreferredSize(new TerminalSize(49, 1));
+		timerProgressBar.setPreferredWidth(40);
 
-		timerTotal = new Label("[T] 00:00:00 ");
-		timerElapsed = new Label("[E] 00:00:00 ");
+		timerTotal = new Label("[T] 00:00:00");
+		timerElapsed = new Label("[E] 00:00:00");
 		timerRemaining = new Label("[R] 00:00:00");
 
 		textPanel.addComponent(timerElapsed);
@@ -160,22 +180,30 @@ public class TimeWindow extends AbstractJhinWindow {
 	}
 
 	private void addStopwatches() {
+		// Create panel and center in main layout
 		stopwatchPanel = new Panel();
-		stopwatchPanel.setLayoutManager(new LinearLayout(Direction.HORIZONTAL));
+		stopwatchPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
+		stopwatchPanel.setLayoutData(GridLayout.createLayoutData(
+				Alignment.CENTER, Alignment.CENTER, true, false));
 
+		// Create horizontal panels
 		Panel panel1 = new Panel();
 		Panel panel2 = new Panel();
-		panel1.setLayoutManager(new LinearLayout(Direction.VERTICAL));
-		panel2.setLayoutManager(new LinearLayout(Direction.VERTICAL));
+		LinearLayout layout1 = new LinearLayout(Direction.HORIZONTAL);
+		LinearLayout layout2 = new LinearLayout(Direction.HORIZONTAL);
+		layout1.setSpacing(2);
+		layout2.setSpacing(2);
+		panel1.setLayoutManager(layout1);
+		panel2.setLayoutManager(layout2);
 
-		stopwatchLabel1 = new Label("[1] 00:00:00 ");
-		stopwatchLabel2 = new Label("[2] 00:00:00 ");
+		stopwatchLabel1 = new Label("[1] 00:00:00");
+		stopwatchLabel2 = new Label("[2] 00:00:00");
 		stopwatchLabel3 = new Label("[3] 00:00:00");
 		stopwatchLabel4 = new Label("[4] 00:00:00");
 
 		panel1.addComponent(stopwatchLabel1);
-		panel1.addComponent(stopwatchLabel2);
-		panel2.addComponent(stopwatchLabel3);
+		panel2.addComponent(stopwatchLabel2);
+		panel1.addComponent(stopwatchLabel3);
 		panel2.addComponent(stopwatchLabel4);
 
 		stopwatchPanel.addComponent(panel1);
@@ -210,7 +238,16 @@ public class TimeWindow extends AbstractJhinWindow {
 		WindowBasedTextGUI gui = getTextGUI();
 		if (gui != null) {
 			try {
-				gui.getGUIThread().invokeLater(() -> updateTimerUI());
+				gui.getGUIThread().invokeLater(() -> {
+					timerProgressBar.setValue(timer.getProgress());
+
+					timerTotal.setText("[T] "
+							+ TimerFormatter.format(timer.getDuration()));
+					timerElapsed.setText(
+							"[E] " + TimerFormatter.format(timer.getElapsed()));
+					timerRemaining.setText("[R] "
+							+ TimerFormatter.format(timer.getRemaining()));
+				});
 			} catch (IllegalStateException e) {
 				// This is fine, just do nothing in case the gui is not running
 			}
@@ -239,11 +276,9 @@ public class TimeWindow extends AbstractJhinWindow {
 			try {
 				gui.getGUIThread().invokeLater(() -> {
 					stopwatchLabel1.setText("[1] "
-							+ TimerFormatter.format(stopwatch1.getElapsed())
-							+ " ");
+							+ TimerFormatter.format(stopwatch1.getElapsed()));
 					stopwatchLabel2.setText("[2] "
-							+ TimerFormatter.format(stopwatch2.getElapsed())
-							+ " ");
+							+ TimerFormatter.format(stopwatch2.getElapsed()));
 					stopwatchLabel3.setText("[3] "
 							+ TimerFormatter.format(stopwatch3.getElapsed()));
 					stopwatchLabel4.setText("[4] "
@@ -253,16 +288,6 @@ public class TimeWindow extends AbstractJhinWindow {
 				// This is fine, just do nothing in case the gui is not running
 			}
 		}
-	}
-
-	private void updateTimerUI() {
-		timerProgressBar.setValue(timer.getProgress());
-		timerTotal.setText(
-				"[T] " + TimerFormatter.format(timer.getDuration()) + " ");
-		timerElapsed.setText(
-				"[E] " + TimerFormatter.format(timer.getElapsed()) + " ");
-		timerRemaining
-				.setText("[R] " + TimerFormatter.format(timer.getRemaining()));
 	}
 
 	@Override
