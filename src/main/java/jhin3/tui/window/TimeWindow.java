@@ -130,22 +130,6 @@ public class TimeWindow extends AbstractJhinWindow {
 		}
 	}
 
-	private void addCurrentDateTime() {
-		LocalDateTime dateTime = LocalDateTime.now();
-
-		// Create panel and center in main layout
-		dateTimePanel = new Panel();
-		dateTimePanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
-		dateTimePanel.setLayoutData(GridLayout.createLayoutData(
-				Alignment.CENTER, Alignment.CENTER, false, false));
-
-		currentDate = new Label(dateTime.format(dateFormatter));
-		currentTime = new Label(dateTime.format(timeFormatter));
-
-		dateTimePanel.addComponent(currentDate);
-		dateTimePanel.addComponent(currentTime);
-	}
-
 	private void addTimerControl() {
 		// Create panel and center in main layout
 		timerPanel = new Panel();
@@ -177,6 +161,22 @@ public class TimeWindow extends AbstractJhinWindow {
 
 		timerPanel.addComponent(timerProgressBar);
 		timerPanel.addComponent(textPanel);
+	}
+
+	private void addCurrentDateTime() {
+		LocalDateTime dateTime = LocalDateTime.now();
+
+		// Create panel and center in main layout
+		dateTimePanel = new Panel();
+		dateTimePanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
+		dateTimePanel.setLayoutData(GridLayout.createLayoutData(
+				Alignment.CENTER, Alignment.CENTER, false, false));
+
+		currentDate = new Label(dateTime.format(dateFormatter));
+		currentTime = new Label(dateTime.format(timeFormatter));
+
+		dateTimePanel.addComponent(currentDate);
+		dateTimePanel.addComponent(currentTime);
 	}
 
 	private void addStopwatches() {
