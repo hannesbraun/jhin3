@@ -1,5 +1,6 @@
 package jhin3.soundboard;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -50,8 +51,33 @@ public class SoundboardConfigHelper {
 			jsonSound = jsonSounds.getJSONObject(key);
 			try {
 				if (jsonSound.getBoolean("active")) {
-					sounds.put(key.toCharArray()[0], new Sound(jsonSound,
-							json.getString("resource_folder")));
+					Sound sound = new Sound();
+					sound.setDescription(jsonSound.getString("description"));
+					sound.setTerminate(jsonSound.getBoolean("terminate"));
+					sound.setFadein(
+							(long) (1000.0 * jsonSound.getDouble("fadein")));
+					sound.setFadeout(
+							(long) (1000.0 * jsonSound.getDouble("fadeout")));
+					sound.setVolume(jsonSound.getDouble("volume"));
+					sound.setPan(jsonSound.getDouble("pan"));
+					sound.setFile(new File(json.getString("resource_folder"),
+							jsonSound.getString("filename")));
+
+					String typeString = jsonSound.getString("type");
+					if (typeString.equals("loop")) {
+						// Loop
+						sound.setType(SoundType.LOOP);
+					} else if (typeString.equals("oneshot")) {
+						// One shot
+						sound.setType(SoundType.ONE_SHOT);
+					} else {
+						// Normal
+						sound.setType(SoundType.NORMAL);
+					}
+
+					sound.load();
+
+					sounds.put(key.toCharArray()[0], sound);
 				}
 			} catch (UnsupportedAudioFileException | IOException e) {
 				e.printStackTrace();

@@ -13,7 +13,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableDouble;
-import org.json.JSONObject;
 
 import jhin3.soundboard.ProcessingState.State;
 
@@ -41,7 +40,9 @@ public class Sound {
 
 	private MutableBoolean kill;
 
-	private final byte[] audioData;
+	private boolean loaded;
+
+	private byte[] audioData;
 
 	private AudioFormat audioFormat;
 
@@ -51,38 +52,98 @@ public class Sound {
 		bufferLength = ms;
 	}
 
-	public Sound(JSONObject json, String resourcePath)
-			throws UnsupportedAudioFileException, IOException {
-		this.description = json.getString("description");
-		this.terminate = json.getBoolean("terminate");
-		this.fadein = (long) (1000.0 * json.getDouble("fadein"));
-		this.fadeout = (long) (1000.0 * json.getDouble("fadeout"));
-		this.volume = json.getDouble("volume");
-		this.pan = json.getDouble("pan");
-		file = new File(resourcePath, json.getString("filename"));
-
-		String typeString = json.getString("type");
-		if (typeString.equals("loop")) {
-			// Loop
-			this.type = SoundType.LOOP;
-		} else if (typeString.equals("oneshot")) {
-			// One shot
-			this.type = SoundType.ONE_SHOT;
-		} else {
-			// Normal
-			this.type = SoundType.NORMAL;
-		}
-
-		validateConfig();
+	public Sound() {
+		this.description = "";
+		this.terminate = true;
+		this.type = SoundType.NORMAL;
 
 		this.progress = new MutableDouble(0.0);
 		this.state = new ProcessingState(State.STOPPED);
 		this.kill = new MutableBoolean(false);
 
-		// Buffer audio data
-		AudioInputStream stream = AudioSystem.getAudioInputStream(file);
-		audioFormat = stream.getFormat();
-		audioData = stream.readAllBytes();
+		loaded = false;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public double getProgress() {
+		return progress.getValue();
+	}
+
+	public State getState() {
+		return state.getState();
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setTerminate(boolean terminate) {
+		this.terminate = terminate;
+	}
+
+	public void setFadein(long fadein) {
+		if (!loaded) {
+			this.fadein = fadein;
+		}
+	}
+
+	public void setFadeout(long fadeout) {
+		if (!loaded) {
+			this.fadeout = fadeout;
+		}
+	}
+
+	public void setVolume(double volume) {
+		if (!loaded) {
+			this.volume = volume;
+		}
+	}
+
+	public void setPan(double pan) {
+		if (!loaded) {
+			this.pan = pan;
+		}
+	}
+
+	public void setFile(File file) {
+		if (!loaded) {
+			this.file = file;
+		}
+	}
+
+	public void setType(SoundType type) {
+		if (!loaded) {
+			this.type = type;
+		}
+	}
+
+	/**
+	 * Must be called before first use.
+	 * 
+	 * After the sound is loaded, modification of some parameters is not
+	 * possible anymore to avoid unwanted behavior while a sound is playing.
+	 * 
+	 * @throws IOException
+	 *             if an I/O error occurs
+	 * @throws UnsupportedAudioFileException
+	 *             if the file does not point to valid audio data recognized by
+	 *             the system
+	 */
+	public void load() throws UnsupportedAudioFileException, IOException {
+		if (file != null) {
+
+			validateConfig();
+
+			// Buffer audio data
+			AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+			audioFormat = stream.getFormat();
+			audioData = stream.readAllBytes();
+
+			loaded = true;
+		}
 	}
 
 	private void validateConfig() {
@@ -105,26 +166,16 @@ public class Sound {
 		}
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public double getProgress() {
-		return progress.getValue();
-	}
-
-	public State getState() {
-		return state.getState();
-	}
-
 	public void toggle() {
-		if (type == SoundType.ONE_SHOT || state.isStopped()
-				|| state.isFadingOut()) {
-			// Start
-			start();
-		} else {
-			// Stop
-			stop();
+		if (loaded) {
+			if (type == SoundType.ONE_SHOT || state.isStopped()
+					|| state.isFadingOut()) {
+				// Start
+				start();
+			} else {
+				// Stop
+				stop();
+			}
 		}
 	}
 
