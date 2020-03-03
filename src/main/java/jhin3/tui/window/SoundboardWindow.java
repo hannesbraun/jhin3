@@ -141,7 +141,7 @@ public class SoundboardWindow extends AbstractJhinWindow {
 			}
 
 			try {
-				Thread.sleep(420);
+				Thread.sleep(96);
 			} catch (InterruptedException e) {
 				// "This is fine"
 				e.printStackTrace();
