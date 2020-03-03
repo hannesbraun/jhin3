@@ -3,6 +3,7 @@ package jhin3;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.MissingOptionException;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
@@ -37,12 +38,11 @@ public class Main {
 				tui.setTheme(cmd.getOptionValue('t'));
 			}
 
-			if (cmd.hasOption('c')) {
-				tui.exec(cmd.getOptionValue('c'));
-			} else {
-				// No config file: starting application impossible
-				System.out.println("Please provide a Jhin3 config file.");
-			}
+			tui.exec(cmd.getOptionValue('c'));
+
+		} catch (MissingOptionException e) {
+			// No config file: starting application impossible
+			System.err.println("Please provide a Jhin3 config file.");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
