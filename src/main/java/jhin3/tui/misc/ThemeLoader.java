@@ -12,6 +12,8 @@ public class ThemeLoader {
 
 	private String name;
 
+	private final String defaultThemeName = "2019";
+
 	private Theme theme;
 
 	/**
@@ -30,7 +32,7 @@ public class ThemeLoader {
 		} else {
 			// No theme was set
 			// Use default theme for Jhin3
-			this.name = "2019";
+			this.name = defaultThemeName;
 		}
 
 		// Try loading the custom theme (may fail)
@@ -42,9 +44,9 @@ public class ThemeLoader {
 			this.theme = LanternaThemes.getRegisteredTheme(name);
 			if (this.theme == null) {
 				// Lanterna theme not found
-				// Using "businessmachine" as default theme
-				this.theme = LanternaThemes
-						.getRegisteredTheme("businessmachine");
+				// Try using the default theme
+				this.name = defaultThemeName;
+				loadCustomTheme();
 			}
 		}
 	}
