@@ -50,7 +50,7 @@ public class ThemeLoader {
 	}
 
 	/**
-	 * Loads a custom made theme for jhin3 from the resources folder. If the
+	 * Loads a custom made theme for jhin3 from the resources directory. If the
 	 * theme is not available, {@link ThemeLoader#theme} will not be changed. In
 	 * case of an error while loading the theme, the lanterna theme
 	 * "businessmachine" will be applied (if possible).

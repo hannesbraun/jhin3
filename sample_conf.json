@@ -1,6 +1,6 @@
 {
     "soundboard_name": "Sample Soundboard",
-    "resource_folder": "/home/moin",
+    "resource_directory": "/your/resource/folder/",
     "sounds": {
         " ": {
             "filename": "sound name goes here",

@@ -60,7 +60,7 @@ public class SoundboardConfigHelper {
 							(long) (1000.0 * jsonSound.getDouble("fadeout")));
 					sound.setVolume(jsonSound.getDouble("volume"));
 					sound.setPan(jsonSound.getDouble("pan"));
-					sound.setFile(new File(json.getString("resource_folder"),
+					sound.setFile(new File(json.getString("resource_directory"),
 							jsonSound.getString("filename")));
 
 					String typeString = jsonSound.getString("type");
