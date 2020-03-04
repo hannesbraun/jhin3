@@ -2,7 +2,7 @@
     "soundboard_name": "Sample Soundboard",
     "resource_directory": "/your/resource/folder/",
     "sounds": {
-        " ": {
+        "1": {
             "filename": "sound name goes here",
             "description": "i'm a description.",
             "active": true,
@@ -10,8 +10,19 @@
             "terminate": true,
             "fadein": 4.2,
             "fadeout": 0.0,
-            "volume": 1.0,
-            "balance": 0.5
+            "volume": 0.0,
+            "pan": 0.0
+        },
+        "2": {
+            "filename": "another sound name goes here",
+            "description": "i'm the description for the second sound.",
+            "active": true,
+            "type": "normal",
+            "terminate": true,
+            "fadein": 0.0,
+            "fadeout": 0.0,
+            "volume": 4.0,
+            "pan": -1.0
         }
     }
 }
