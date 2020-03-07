@@ -31,18 +31,7 @@ public class Main {
 
 			if (cmd.hasOption('b')) {
 				// Set buffer length for audio
-				float bufferSize = Float.parseFloat(cmd.getOptionValue('b'));
-				if (bufferSize <= 0.0f) {
-					System.err.println(
-							"Error: the buffer size can't be zero or less.");
-					error = true;
-				} else if (bufferSize > 3600000.0f) {
-					System.out
-							.println("Limiting the buffer size to 3600000 ms");
-					Sound.setBufferLength(3600000.0f);
-				} else {
-					Sound.setBufferLength(bufferSize);
-				}
+				error = setBufferLength(cmd.getOptionValue('b'));
 			}
 
 			MainTUI tui = new MainTUI();
@@ -91,6 +80,23 @@ public class Main {
 				"Fore more information see the GNU General Public License version 3.");
 
 		System.out.println();
+	}
+
+	private static boolean setBufferLength(String length) {
+		boolean error = false;
+		float bufferSize = Float.parseFloat(length);
+
+		if (bufferSize <= 0.0f) {
+			System.err.println("Error: the buffer size can't be zero or less.");
+			error = true;
+		} else if (bufferSize > 3600000.0f) {
+			System.out.println("Limiting the buffer size to 3600000 ms");
+			Sound.setBufferLength(3600000.0f);
+		} else {
+			Sound.setBufferLength(bufferSize);
+		}
+
+		return error;
 	}
 
 }
