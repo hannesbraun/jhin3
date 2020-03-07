@@ -1,5 +1,7 @@
 package jhin3;
 
+import java.io.File;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -31,7 +33,7 @@ public class Main {
 
 			if (cmd.hasOption('b')) {
 				// Set buffer length for audio
-				error = setBufferLength(cmd.getOptionValue('b'));
+				error |= setBufferLength(cmd.getOptionValue('b'));
 			}
 
 			MainTUI tui = new MainTUI();
@@ -40,6 +42,8 @@ public class Main {
 				// Set theme
 				tui.setTheme(cmd.getOptionValue('t'));
 			}
+
+			error |= errorCheckConfigFile(cmd.getOptionValue('c'));
 
 			if (!error) {
 				tui.exec(cmd.getOptionValue('c'));
@@ -80,6 +84,21 @@ public class Main {
 				"Fore more information see the GNU General Public License version 3.");
 
 		System.out.println();
+	}
+
+	private static boolean errorCheckConfigFile(String path) {
+		boolean error = false;
+		File configFile = new File(path);
+
+		// File has to exist and has to be a file
+		error |= !configFile.exists();
+		error |= !configFile.isFile();
+
+		if (error) {
+			System.err.println("Error: no such file \"" + path + "\"");
+		}
+
+		return error;
 	}
 
 	private static boolean setBufferLength(String length) {
