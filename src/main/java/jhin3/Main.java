@@ -24,13 +24,25 @@ public class Main {
 		CommandLineParser parser = new DefaultParser();
 		CommandLine cmd;
 
+		boolean error = false;
+
 		try {
 			cmd = parser.parse(options, args);
 
 			if (cmd.hasOption('b')) {
 				// Set buffer length for audio
-				Sound.setBufferLength(
-						Float.parseFloat(cmd.getOptionValue('b')));
+				float bufferSize = Float.parseFloat(cmd.getOptionValue('b'));
+				if (bufferSize <= 0.0f) {
+					System.err.println(
+							"Error: the buffer size can't be zero or less.");
+					error = true;
+				} else if (bufferSize > 3600000.0f) {
+					System.out
+							.println("Limiting the buffer size to 3600000 ms");
+					Sound.setBufferLength(3600000.0f);
+				} else {
+					Sound.setBufferLength(bufferSize);
+				}
 			}
 
 			MainTUI tui = new MainTUI();
@@ -40,7 +52,9 @@ public class Main {
 				tui.setTheme(cmd.getOptionValue('t'));
 			}
 
-			tui.exec(cmd.getOptionValue('c'));
+			if (!error) {
+				tui.exec(cmd.getOptionValue('c'));
+			}
 
 		} catch (MissingOptionException e) {
 			// No config file: starting application impossible

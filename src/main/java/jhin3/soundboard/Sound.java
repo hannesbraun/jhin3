@@ -49,7 +49,10 @@ public class Sound {
 	private static float bufferLength = 200.0f;
 
 	public static void setBufferLength(float ms) {
-		bufferLength = ms;
+		if (ms > 0.0f) {
+			// Negative value not possible
+			bufferLength = ms;
+		}
 	}
 
 	public Sound() {
