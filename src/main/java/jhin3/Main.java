@@ -14,6 +14,8 @@ public class Main {
 
 	public static void main(String[] args) {
 
+		printHeader();
+
 		Options options = new Options();
 		options.addRequiredOption("c", "config", true, "the Jhin3 config file");
 		options.addOption("b", "buffer", true, "buffer size in ms");
@@ -47,6 +49,34 @@ public class Main {
 			e.printStackTrace();
 		}
 
+	}
+
+	private static void printHeader() {
+		System.out.println(
+				"________________________________________________________________________________");
+		System.out.println();
+		System.out.println(
+				"                               _ _     _       _____\n"
+						+ "                              | | |__ (_)_ __ |___ /\n"
+						+ "                           _  | | '_ \\| | '_ \\  |_ \\\n"
+						+ "                          | |_| | | | | | | | |___) |\n"
+						+ "                           \\___/|_| |_|_|_| |_|____/");
+		System.out.println();
+		System.out.println(
+				"________________________________________________________________________________");
+
+		System.out.println();
+
+		System.out.println("Jhin3 version " + JhinMetadata.VERSION);
+		System.out.println("Copyright 2020 Hannes Braun");
+		System.out.println("This program comes with ABSOLUTELY NO WARRANTY.");
+		System.out.println(
+				"This is free software, and you are welcome to redistribute it\n"
+						+ "under certain conditions.");
+		System.out.println(
+				"Fore more information see the GNU General Public License version 3.");
+
+		System.out.println();
 	}
 
 }
