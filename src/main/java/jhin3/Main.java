@@ -11,6 +11,7 @@ import org.apache.commons.cli.ParseException;
 
 import jhin3.soundboard.Sound;
 import jhin3.tui.MainTUI;
+import jhin3.tui.misc.ThemeLoader;
 
 public class Main {
 
@@ -39,6 +40,8 @@ public class Main {
 			MainTUI tui = new MainTUI();
 
 			if (cmd.hasOption('t')) {
+				checkThemeSupport(cmd.getOptionValue('t'));
+
 				// Set theme
 				tui.setTheme(cmd.getOptionValue('t'));
 			}
@@ -116,6 +119,14 @@ public class Main {
 		}
 
 		return error;
+	}
+
+	private static void checkThemeSupport(String themeName) {
+		if (!ThemeLoader.isThemeSupported(themeName)) {
+			System.err.println(
+					"Warning: this theme is not supported and the user interface may not\n"
+							+ "  look as expected. Consider using another (supported) theme.");
+		}
 	}
 
 }

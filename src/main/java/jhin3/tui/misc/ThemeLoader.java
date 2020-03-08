@@ -16,6 +16,18 @@ public class ThemeLoader {
 
 	private Theme theme;
 
+	public static boolean isThemeSupported(String name) {
+		switch (name) {
+			case "blaster" :
+			case "defrost" :
+				// These themes require more space for some elements.
+				// This results in a user interface with missing elements.
+				return false;
+			default :
+				return true;
+		}
+	}
+
 	/**
 	 * Constructs a new theme loader. This will create the theme object
 	 * instantly.
