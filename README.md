@@ -26,7 +26,7 @@ Requirements:
 In your console, navigate to the root directory of this project.
 Run
 ``` bash
-   mvn package
+mvn package
 ```
 In the ```target``` directory, you will find your generated jar file named `jhin3-<version>-jar-with-dependencies.jar`.
 
