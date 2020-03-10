@@ -54,7 +54,7 @@ public class Main {
 
 		} catch (MissingOptionException e) {
 			// No config file: starting application impossible
-			System.err.println("Please provide a Jhin3 config file.");
+			System.err.println("Error: please provide a Jhin3 config file.");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -112,7 +112,8 @@ public class Main {
 			System.err.println("Error: the buffer size can't be zero or less.");
 			error = true;
 		} else if (bufferSize > 3600000.0f) {
-			System.out.println("Limiting the buffer size to 3600000 ms");
+			System.out
+					.println("Warning: limiting the buffer size to 3600000 ms");
 			Sound.setBufferLength(3600000.0f);
 		} else {
 			Sound.setBufferLength(bufferSize);
