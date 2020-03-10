@@ -6,7 +6,7 @@ Jhin3 is a console soundboard with some additional time tracking utilities. The 
 
 ## Getting started
 
-**You need at least Java 8 to run and/or build Jhin3.**
+**You need at least Java 11 to run and/or build Jhin3.**
 
 ### Installation
 
@@ -20,7 +20,7 @@ After the download is complete, simply unpack the zip file and you will find the
 #### Building from source
 
 Requirements:
-- JDK 8 or higher
+- JDK 11 or higher
 - Maven
 
 In your console, navigate to the root directory of this project.
