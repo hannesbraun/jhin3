@@ -1,0 +1,54 @@
+\section{Installation}
+
+So you decided to give Jhin3 a try? Great!
+To run Jhin3, you need to have Java (version 8 or higher) installed. This makes Jhin3 compatible with all the major operating systems such as Linux, macOS and Windows. Jhin3 itself is nothing more than a jar file. This means that you can either install Jhin3 to a system directory or just put the jar file somewhere you like in your user directory. Decide for yourself what suits to your needs.
+
+\subsection{Getting the jar file}
+
+You can either download a pre-built version of Jhin3 from the GitHub releases page or you can build Jhin3 yourself.
+
+\subsubsection{Downloading a pre-built version (recommended)}
+
+Go to the GitHub releases page of Jhin3 (\href{https://github.com/hannesbraun/jhin3/releases}{or click here}). Select the latest version and download the associated zip file. It is called something like ``jhin3-2020.0.0.zip''.
+Unpack the file and you will find the jar file inside.
+
+\subsubsection{Building from source}
+
+To build Jhin3 from source, make sure you have a JDK (version 8 or higher) installed as well as Maven.
+
+Clone the Jhin3 repository to your computer and navigate to its root directory. Now, just run this command:
+\begin{lstlisting}[language=bash]
+mvn package
+\end{lstlisting}
+
+Inside of the target directory, you should find a file called ``jhin3-\{version\}-jar-with-dependencies.jar''.
+
+\subsection{Optional: installing Jhin3}
+
+Right now, you need to type
+\begin{lstlisting}[language=bash]
+java -jar /path/to/jhin3.jar
+\end{lstlisting}
+every time you want to run Jhin3. To simplify this, you can install Jhin3 to a system directory and execute it just by typing
+\begin{lstlisting}[language=bash]
+jhin3
+\end{lstlisting}
+
+\subsubsection{Linux/macOS}
+
+In the /opt directory of your system, create a new directory called ``jhin3''. Rename the Jhin3 jar file to ``jhin3.jar'' and move it into this new directory.
+Next, create a file called ``jhin3'' inside of ``/usr/local/bin''. This serves as a wrapper for the actual jar file.
+Copy the following code inside that file:
+
+\begin{lstlisting}[language=bash]
+#!/bin/sh
+
+java -jar /opt/jhin3/jhin3.jar "$@"
+\end{lstlisting}
+
+You should now be able to run Jhin3 anywhere by typing:
+\begin{lstlisting}[language=bash]
+jhin3
+\end{lstlisting}
+
+To update Jhin3, replace ``/opt/jhin3/jhin3.jar'' with the new jar file.

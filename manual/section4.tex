@@ -1,0 +1,26 @@
+\section{Using Jhin3}
+
+\textbf{Important note:} For windows, use javaw instead of java.
+
+\subsection{Command line options}
+
+The following command line options are available:
+\begin{itemize}
+\item ``-c [path]'' (\textbf{required}): path to the configuration file
+\item ``-b [buffer size]'': audio buffer size in ms
+\item ``-t [theme]'': theme to use (currently available: ``2019'', ``2020'', ``bsod'' and ``frost-archer'')
+\end{itemize}
+
+\subsection{General usage}
+
+To switch between the soundboard and the time window press ``ctrl-F''.
+
+In the soundboard window, you can press any of the mapped keys (defined inside of the given configuration file). This will trigger the sound depending on its type.
+The column ``state'' shows if the sound is fading in, playing or fading out. The progress column shows the playing progress of the last started instance of the sound.
+
+In the time window, you can start and stop the timer by pressing ``S''. To reset the timer, press ``C''.
+Changing the timer duration is possible by pressing ``X''. The maximum length is 99 hours, 59 minutes and 59 seconds. The input has to be of the form HH:mm:ss.
+
+The four stopwatches can be started and stopped by pressing ``1'', ``2'', ``3'' or ``4''. To reset them, press ``Q'', ``W'', ``E'' and ``R'' respectively.
+
+To exit Jhin3 press the esc-key.

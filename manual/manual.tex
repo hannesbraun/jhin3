@@ -1,0 +1,70 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[pdftex,
+            pdfauthor={Hannes Braun},
+            pdftitle={Jhin3 user manual},
+            pdfsubject={Jhin3}]{hyperref}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstdefinelanguage{json}{
+    basicstyle=\normalfont\ttfamily,    
+    showstringspaces=false,
+    breaklines=true,
+    backgroundcolor=\color{lightgray}
+}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\begin{document}
+
+\pagenumbering{arabic}
+
+\pagestyle{fancy}
+\lhead{Jhin3 user manual}
+\rhead{Page \thepage}
+\cfoot{}
+
+\thispagestyle{empty}
+\begin{center}
+\begin{Huge}
+\textbf{Jhin3}
+\end{Huge}
+
+\begin{Large}
+\vspace{0.4cm}
+\textbf{Console soundboard}
+\end{Large}
+
+\begin{large}
+\vspace{0.1cm}
+User manual
+
+\vspace{1cm}
+
+Version 2020.0.0
+
+\vspace{0.7cm}
+
+Copyright \textcopyright{} 2020 Hannes Braun
+
+\href{https://github.com/hannesbraun/jhin3}{https://github.com/hannesbraun/jhin3}
+\end{large}
+
+\vspace{2.4cm}
+\includegraphics[scale=0.6]{../preview.png}
+
+\end{center}
+\newpage
+
+\tableofcontents
+\newpage
+
+\include{section1}
+\include{section2}
+\include{section3}
+\include{section4}
+
+\end{document}
