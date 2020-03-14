@@ -2,7 +2,6 @@
 
 To use Jhin3, you need to have a configuration file in the JSON format. If you are unfamiliar with JSON, don't worry. There is a lot of documentation on the internet about JSON and you can also check out the sample configuration in the repository of this project (\href{https://github.com/hannesbraun/jhin3/blob/master/sample_conf.json}{click here}).
 
-Every sound entry should look something like this:
 The first property called ``soundboard\_name'' is unused at the moment. You can add it to your configuration file and provide a name for this soundboard, it doesn't matter right now.
 With ``resource\_folder'', you provide the base directory for your sounds. This should minimize the amount of typing for the path of the sound files.
 
@@ -29,11 +28,11 @@ The object ``sounds'' contains all your desired sounds. A sound entry looks like
 \item ``active'': if set to true, the sound will show up as expected. By setting this to false, the sound will be ignored by Jhin3. This is useful if you have a sound but you don't need it yet. At any time, you can just set this flag to true and your sound will be available.
 \item ``type'': the type of the sound. Three types are available: ``normal'', ``loop'' and ``oneshot''.
 	\begin{itemize}
-	\item ``normal'': pressing the associated key will start and stop the sound with the provided fadein and fadeout. If the sound has finished playing because, nothing else happens and the fadeout won't be applied.
+	\item ``normal'': pressing the associated key will start and stop the sound with the provided fadein and fadeout. If the sound has finished playing naturally, nothing else happens and the fadeout won't be applied.
 	\item ``loop'': works like ``normal'' but if the sound has finished playing it will start from the beginning again
 	\item ``oneshot'': ignores ``fadein''. If the sound is playing and the associated key is pressed, the sound will play again starting from the beginning.
 	\end{itemize}
-\item ``terminate'': only used for the type ``oneshot''. Determines if the old sound will stop playing when starting a new sound. If not, multiple instances of the sound will play at the same time.
+\item ``terminate'': only used for the type ``oneshot''. Determines if the old sound instance will stop playing when starting a new sound. If not, multiple instances of the sound will play at the same time.
 \item ``fadein'': fade-in time in seconds
 \item ``fadeout'': fade-out time in seconds
 \item ``volume'': gain in dB applied to the sound. 0.0 leaves the volume untouched. Values from -79.9 to 6.0 are possible.
