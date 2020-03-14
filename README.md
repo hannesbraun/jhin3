@@ -25,7 +25,7 @@ Requirements:
 
 In your console, navigate to the root directory of this project.
 Run
-``` bash
+```sh
 mvn package
 ```
 In the ```target``` directory, you will find your generated jar file named `jhin3-<version>-jar-with-dependencies.jar`.
@@ -35,7 +35,7 @@ In the ```target``` directory, you will find your generated jar file named `jhin
 Create your configuration file. This file contains the path to the sounds with their individual settings like volume and pan as well as the mappings to the keys. For an example see [sample_conf.json](sample_conf.json).
 
 After creating the configuration file, run something like
-```bash
+```sh
 java -jar /path/to/jhin3.jar -c /path/to/config.json
 ```
 
