@@ -10,12 +10,12 @@ Jhin3 is a console soundboard with some additional time tracking utilities. The 
 
 ### Installation
 
-There is no need to install Jhin3. You can simply run the jar file.
+There is no need to install Jhin3 (if you don't want to). You can just run the jar file.
 
 #### Download a pre-built version (recommended)
 
 You can simply click [here](# "Version 2020.0.0") to download the latest version of Jhin3. Otherwise, you can navigate to the [GitHub releases page of Jhin3](https://github.com/hannesbraun/jhin3/releases) and download the desired version.
-After the download is complete, simply unpack the zip file and you will find the executable jar file.
+After the download is complete, unpack the zip file and you will find the executable jar file.
 
 #### Building from source
 
@@ -42,7 +42,7 @@ java -jar /path/to/jhin3.jar -c /path/to/config.json
 Use `ctrl-F` o switch between the two windows.
 In the soundboard window, press a mapped key to trigger the associated sound.
 
-For more information, please see the [manual](#).
+For more information, please see the manual. You can find the manual in the zip file containing the pre-built version or you can build it yourself with its [makefile](manual/makefile).
 
 ## Used libraries
 
