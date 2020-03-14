@@ -149,6 +149,9 @@ public class Sound {
 		}
 	}
 
+	/**
+	 * Adjusts fadein, fadeout, volume and pan in case of invalid values.
+	 */
 	private void validateConfig() {
 		if (fadein < 0) {
 			fadein = 0;

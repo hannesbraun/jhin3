@@ -25,6 +25,7 @@ public class MainTUI {
 
 		Soundboard soundboard = new Soundboard(configFile);
 
+		// GUI running flag: used for closing the windows
 		MutableBoolean guiRunning = new MutableBoolean(true);
 
 		DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
