@@ -35,22 +35,22 @@ public class SoundboardConfigHelper {
 	private JSONObject json;
 
 	public SoundboardConfigHelper(String path) {
-		String jsonString = "{}";
+		String jsonString = "{\"sounds\":{}}";
 
-		try {
-			jsonString = Files.readString(Paths.get(path),
-					StandardCharsets.UTF_8);
-		} catch (IOException e) {
-			// Use the empty JSON string -> no sounds
-			e.printStackTrace();
+		if (path != null) {
+			try {
+				jsonString = Files.readString(Paths.get(path), StandardCharsets.UTF_8);
+			} catch (IOException e) {
+				// Use the "empty" JSON string -> no sounds
+				e.printStackTrace();
+			}
 		}
 
 		json = new JSONObject(jsonString);
 	}
 
 	public Map<Character, Sound> getSounds() {
-		Map<Character, Sound> sounds = Collections
-				.synchronizedMap(new HashMap<Character, Sound>());
+		Map<Character, Sound> sounds = Collections.synchronizedMap(new HashMap<Character, Sound>());
 
 		JSONObject jsonSounds = json.getJSONObject("sounds");
 		Iterator<String> keys = jsonSounds.keys();
@@ -70,14 +70,11 @@ public class SoundboardConfigHelper {
 					Sound sound = new Sound();
 					sound.setDescription(jsonSound.getString("description"));
 					sound.setTerminate(jsonSound.getBoolean("terminate"));
-					sound.setFadein(
-							(long) (1000.0 * jsonSound.getDouble("fadein")));
-					sound.setFadeout(
-							(long) (1000.0 * jsonSound.getDouble("fadeout")));
+					sound.setFadein((long) (1000.0 * jsonSound.getDouble("fadein")));
+					sound.setFadeout((long) (1000.0 * jsonSound.getDouble("fadeout")));
 					sound.setVolume(jsonSound.getDouble("volume"));
 					sound.setPan(jsonSound.getDouble("pan"));
-					sound.setFile(new File(json.getString("resource_directory"),
-							jsonSound.getString("filename")));
+					sound.setFile(new File(json.getString("resource_directory"), jsonSound.getString("filename")));
 
 					String typeString = jsonSound.getString("type");
 					if (typeString.equals("loop")) {

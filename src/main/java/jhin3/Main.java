@@ -21,7 +21,6 @@ import java.io.File;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.MissingOptionException;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
@@ -36,7 +35,7 @@ public class Main {
 		printHeader();
 
 		Options options = new Options();
-		options.addRequiredOption("c", "config", true, "the Jhin3 config file");
+		options.addOption("c", "config", true, "the Jhin3 config file");
 		options.addOption("b", "buffer", true, "buffer size in ms");
 		options.addOption("t", "theme", true, "color theme to use");
 
@@ -62,15 +61,14 @@ public class Main {
 				tui.setTheme(cmd.getOptionValue('t'));
 			}
 
-			error |= errorCheckConfigFile(cmd.getOptionValue('c'));
+			if (cmd.hasOption('c')) {
+				error |= errorCheckConfigFile(cmd.getOptionValue('c'));
+			}
 
 			if (!error) {
 				tui.exec(cmd.getOptionValue('c'));
 			}
 
-		} catch (MissingOptionException e) {
-			// No config file: starting application impossible
-			System.err.println("Error: please provide a Jhin3 config file.");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -78,18 +76,15 @@ public class Main {
 	}
 
 	private static void printHeader() {
-		System.out.println(
-				"________________________________________________________________________________");
+		System.out.println("________________________________________________________________________________");
 		System.out.println();
-		System.out.println(
-				"                               _ _     _       _____\n"
-						+ "                              | | |__ (_)_ __ |___ /\n"
-						+ "                           _  | | '_ \\| | '_ \\  |_ \\\n"
-						+ "                          | |_| | | | | | | | |___) |\n"
-						+ "                           \\___/|_| |_|_|_| |_|____/");
+		System.out.println("                               _ _     _       _____\n"
+				+ "                              | | |__ (_)_ __ |___ /\n"
+				+ "                           _  | | '_ \\| | '_ \\  |_ \\\n"
+				+ "                          | |_| | | | | | | | |___) |\n"
+				+ "                           \\___/|_| |_|_|_| |_|____/");
 		System.out.println();
-		System.out.println(
-				"________________________________________________________________________________");
+		System.out.println("________________________________________________________________________________");
 
 		System.out.println();
 
@@ -97,10 +92,8 @@ public class Main {
 		System.out.println("Copyright 2020 Hannes Braun");
 		System.out.println("This program comes with ABSOLUTELY NO WARRANTY.");
 		System.out.println(
-				"This is free software, and you are welcome to redistribute it\n"
-						+ "under certain conditions.");
-		System.out.println(
-				"Fore more information see the GNU General Public License version 3.");
+				"This is free software, and you are welcome to redistribute it\n" + "under certain conditions.");
+		System.out.println("Fore more information see the GNU General Public License version 3.");
 
 		System.out.println();
 	}
@@ -128,8 +121,7 @@ public class Main {
 			System.err.println("Error: the buffer size can't be zero or less.");
 			error = true;
 		} else if (bufferSize > 3600000.0f) {
-			System.out
-					.println("Warning: limiting the buffer size to 3600000 ms");
+			System.out.println("Warning: limiting the buffer size to 3600000 ms");
 			Sound.setBufferLength(3600000.0f);
 		} else {
 			Sound.setBufferLength(bufferSize);
@@ -140,9 +132,8 @@ public class Main {
 
 	private static void checkThemeSupport(String themeName) {
 		if (!ThemeLoader.isThemeSupported(themeName)) {
-			System.err.println(
-					"Warning: this theme is not supported and the user interface may not\n"
-							+ "  look as expected. Consider using another (supported) theme.");
+			System.err.println("Warning: this theme is not supported and the user interface may not\n"
+					+ "  look as expected. Consider using another (supported) theme.");
 		}
 	}
 
