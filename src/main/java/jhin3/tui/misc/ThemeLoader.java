@@ -34,25 +34,23 @@ public class ThemeLoader {
 
 	public static boolean isThemeSupported(String name) {
 		switch (name) {
-			case "blaster" :
-			case "defrost" :
-				// These themes require more space for some elements.
-				// This results in a user interface with missing elements.
-				return false;
-			default :
-				return true;
+		case "blaster":
+		case "defrost":
+			// These themes require more space for some elements.
+			// This results in a user interface with missing elements.
+			return false;
+		default:
+			return true;
 		}
 	}
 
 	/**
-	 * Constructs a new theme loader. This will create the theme object
-	 * instantly.
+	 * Constructs a new theme loader. This will create the theme object instantly.
 	 * 
-	 * If no name was provided, a default theme will be used. If the selected
-	 * theme is not available, some fallback options will be used.
+	 * If no name was provided, a default theme will be used. If the selected theme
+	 * is not available, some fallback options will be used.
 	 * 
-	 * @param name
-	 *            the theme name
+	 * @param name the theme name
 	 */
 	public ThemeLoader(String name) {
 		if (name != null && name != "") {
@@ -69,7 +67,7 @@ public class ThemeLoader {
 		if (this.theme == null) {
 			// No jhin3 theme found
 			// Try searching for a lanterna theme
-			this.theme = LanternaThemes.getRegisteredTheme(name);
+			this.theme = LanternaThemes.getRegisteredTheme(this.name);
 			if (this.theme == null) {
 				// Lanterna theme not found
 				// Try using the default theme
@@ -90,9 +88,7 @@ public class ThemeLoader {
 
 		try {
 			// Load properties
-			ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-			InputStream resourceAsStream = classLoader.getResourceAsStream(
-					"themes/" + name + "-theme.properties");
+			InputStream resourceAsStream = getClass().getResourceAsStream("/themes/" + name + "-theme.properties");
 			if (resourceAsStream != null) {
 				properties.load(resourceAsStream);
 				resourceAsStream.close();
