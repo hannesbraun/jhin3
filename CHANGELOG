@@ -8,3 +8,8 @@ Copyright 2020 Hannes Braun
 Version 2020.0.0 (March 14, 2020)
 -------------------------------------
 * Initial version
+
+Version 2020.0.1 (June 9, 2020)
+-------------------------------------
+* The command line parameter "-c" is now optional.
+* Fixed a theme loading issue.
