@@ -14,42 +14,50 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *******************************************************************************/
-package jhin3.soundboard;
+package com.github.hannesbraun.jhin3.time.stopwatch;
 
-public class ProcessingState {
+public class Stopwatch
+{
+	private long elapsed;
 
-	public enum State {
-		FADEIN, PLAYING, FADEOUT, STOPPED
+	private boolean running;
+
+	private long startTimestamp;
+
+	public Stopwatch()
+	{
+		elapsed = 0;
+		running = false;
 	}
 
-	private State state;
+	public void toggle()
+	{
+		if (running) {
+			elapsed = elapsed + (System.currentTimeMillis() - startTimestamp);
+		} else {
+			startTimestamp = System.currentTimeMillis();
+		}
 
-	public ProcessingState(State state) {
-		setState(state);
+		running = !running;
 	}
 
-	public boolean isFadingIn() {
-		return state == State.FADEIN;
+	public void reset()
+	{
+		elapsed = 0;
+		running = false;
 	}
 
-	public boolean isPlaying() {
-		return state == State.PLAYING;
+	public long getElapsed()
+	{
+		if (running) {
+			return elapsed + (System.currentTimeMillis() - startTimestamp);
+		} else {
+			return elapsed;
+		}
 	}
 
-	public boolean isFadingOut() {
-		return state == State.FADEOUT;
+	public boolean isRunning()
+	{
+		return running;
 	}
-
-	public boolean isStopped() {
-		return state == State.STOPPED;
-	}
-
-	public void setState(State state) {
-		this.state = state;
-	}
-
-	public State getState() {
-		return state;
-	}
-
 }

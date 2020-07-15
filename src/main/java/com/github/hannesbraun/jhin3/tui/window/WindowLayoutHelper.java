@@ -14,8 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *******************************************************************************/
-package jhin3.soundboard;
+package com.github.hannesbraun.jhin3.tui.window;
 
-public enum SoundType {
-	NORMAL, LOOP, ONE_SHOT
+public class WindowLayoutHelper
+{
+	public static int getTimeHeight()
+	{
+		return 2;
+	}
 }

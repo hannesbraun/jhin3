@@ -14,24 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *******************************************************************************/
-package jhin3;
+package com.github.hannesbraun.jhin3;
 
+import com.github.hannesbraun.jhin3.soundboard.Sound;
+import com.github.hannesbraun.jhin3.tui.MainTUI;
+import com.github.hannesbraun.jhin3.tui.misc.ThemeLoader;
 import java.io.File;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import jhin3.soundboard.Sound;
-import jhin3.tui.MainTUI;
-import jhin3.tui.misc.ThemeLoader;
-
-public class Main {
-
-	public static void main(String[] args) {
-
+public class Main
+{
+	public static void main(String[] args)
+	{
 		printHeader();
 
 		Options options = new Options();
@@ -72,17 +70,17 @@ public class Main {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-
 	}
 
-	private static void printHeader() {
+	private static void printHeader()
+	{
 		System.out.println("________________________________________________________________________________");
 		System.out.println();
 		System.out.println("                               _ _     _       _____\n"
-				+ "                              | | |__ (_)_ __ |___ /\n"
-				+ "                           _  | | '_ \\| | '_ \\  |_ \\\n"
-				+ "                          | |_| | | | | | | | |___) |\n"
-				+ "                           \\___/|_| |_|_|_| |_|____/");
+						   + "                              | | |__ (_)_ __ |___ /\n"
+						   + "                           _  | | '_ \\| | '_ \\  |_ \\\n"
+						   + "                          | |_| | | | | | | | |___) |\n"
+						   + "                           \\___/|_| |_|_|_| |_|____/");
 		System.out.println();
 		System.out.println("________________________________________________________________________________");
 
@@ -91,14 +89,15 @@ public class Main {
 		System.out.println("Jhin3 version " + JhinMetadata.VERSION);
 		System.out.println("Copyright 2020 Hannes Braun");
 		System.out.println("This program comes with ABSOLUTELY NO WARRANTY.");
-		System.out.println(
-				"This is free software, and you are welcome to redistribute it\n" + "under certain conditions.");
+		System.out.println("This is free software, and you are welcome to redistribute it\n"
+						   + "under certain conditions.");
 		System.out.println("Fore more information see the GNU General Public License version 3.");
 
 		System.out.println();
 	}
 
-	private static boolean errorCheckConfigFile(String path) {
+	private static boolean errorCheckConfigFile(String path)
+	{
 		boolean error = false;
 		File configFile = new File(path);
 
@@ -113,7 +112,8 @@ public class Main {
 		return error;
 	}
 
-	private static boolean setBufferLength(String length) {
+	private static boolean setBufferLength(String length)
+	{
 		boolean error = false;
 		float bufferSize = Float.parseFloat(length);
 
@@ -130,11 +130,11 @@ public class Main {
 		return error;
 	}
 
-	private static void checkThemeSupport(String themeName) {
+	private static void checkThemeSupport(String themeName)
+	{
 		if (!ThemeLoader.isThemeSupported(themeName)) {
 			System.err.println("Warning: this theme is not supported and the user interface may not\n"
-					+ "  look as expected. Consider using another (supported) theme.");
+							   + "  look as expected. Consider using another (supported) theme.");
 		}
 	}
-
 }

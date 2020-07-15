@@ -14,22 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *******************************************************************************/
-package jhin3.soundboard;
+package com.github.hannesbraun.jhin3.soundboard;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Soundboard {
-
+public class Soundboard
+{
 	private Map<Character, Sound> sounds;
 
-	public Soundboard(String file) {
+	public Soundboard(String file)
+	{
 		SoundboardConfigHelper configHelper = new SoundboardConfigHelper(file);
 		sounds = configHelper.getSounds();
 	}
 
-	public boolean toggle(char key) {
+	public boolean toggle(char key)
+	{
 		Sound sound = sounds.get(key);
 		if (sound != null) {
 			sound.toggle();
@@ -40,13 +42,15 @@ public class Soundboard {
 		}
 	}
 
-	public void kill() {
+	public void kill()
+	{
 		for (Map.Entry<Character, Sound> entry : sounds.entrySet()) {
 			entry.getValue().kill();
 		}
 	}
 
-	public List<Character> getKeyList() {
+	public List<Character> getKeyList()
+	{
 		List<Character> keyList = new ArrayList<Character>();
 		for (Map.Entry<Character, Sound> entry : sounds.entrySet()) {
 			keyList.add(entry.getKey());
@@ -58,7 +62,8 @@ public class Soundboard {
 		return keyList;
 	}
 
-	public Sound getSound(char key) {
+	public Sound getSound(char key)
+	{
 		return sounds.get(key);
 	}
 }

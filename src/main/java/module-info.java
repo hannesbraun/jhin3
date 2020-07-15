@@ -14,7 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *******************************************************************************/
-module jhin3 {
+module jhin3
+{
 	requires org.apache.commons.lang3;
 	requires commons.cli;
 	requires java.desktop;

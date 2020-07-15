@@ -14,10 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *******************************************************************************/
-package jhin3.tui.misc;
+package com.github.hannesbraun.jhin3.tui.misc;
 
-public class TimerFormatter {
-	public static String format(long milliseconds) {
+public class TimerFormatter
+{
+	public static String format(long milliseconds)
+	{
 		int hours;
 		int minutes;
 		int seconds;

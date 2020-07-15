@@ -14,21 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *******************************************************************************/
-package jhin3.tui.misc;
+package com.github.hannesbraun.jhin3.tui.window;
 
-import com.googlecode.lanterna.gui2.dialogs.TextInputDialogResultValidator;
+import com.googlecode.lanterna.TerminalSize;
 
-public class TimerLengthValidator implements TextInputDialogResultValidator {
+public interface JhinWindow {
+	public void updatePosition(TerminalSize newSize);
 
-	@Override
-	public String validate(String content) {
-		if (content.matches("^[0-9]{2}(:[0-5][0-9]){2}$")) {
-			return null;
-		} else if (content.matches("^[0-9]{2}(:[0-9]{2}){2}$")) {
-			return "Invalid value for minutes and/or seconds";
-		} else {
-			return "Invalid format, must be HH:mm:ss";
-		}
-	}
-
+	public void updateSize(TerminalSize newSize);
 }

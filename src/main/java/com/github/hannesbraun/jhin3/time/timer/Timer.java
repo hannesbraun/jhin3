@@ -14,41 +14,46 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *******************************************************************************/
-package jhin3.time.timer;
+package com.github.hannesbraun.jhin3.time.timer;
 
-import jhin3.time.stopwatch.Stopwatch;
+import com.github.hannesbraun.jhin3.time.stopwatch.Stopwatch;
 
-public class Timer {
-
+public class Timer
+{
 	public static final int progressMax = 1048576;
 
 	private Stopwatch stopwatch;
 
 	private long duration;
 
-	public Timer(long milliseconds) {
+	public Timer(long milliseconds)
+	{
 		stopwatch = new Stopwatch();
 		duration = milliseconds;
 	}
 
-	public synchronized void toggle() {
+	public synchronized void toggle()
+	{
 		stopIfFinished();
 		if (!isFinished()) {
 			stopwatch.toggle();
 		}
 	}
 
-	public synchronized void reset() {
+	public synchronized void reset()
+	{
 		stopwatch.reset();
 	}
 
-	private synchronized void stopIfFinished() {
+	private synchronized void stopIfFinished()
+	{
 		if (stopwatch.isRunning() && stopwatch.getElapsed() >= duration) {
 			stopwatch.toggle();
 		}
 	}
 
-	public synchronized long getElapsed() {
+	public synchronized long getElapsed()
+	{
 		stopIfFinished();
 		long elapsed = stopwatch.getElapsed();
 
@@ -59,20 +64,24 @@ public class Timer {
 		}
 	}
 
-	public synchronized long getRemaining() {
+	public synchronized long getRemaining()
+	{
 		stopIfFinished();
 		return duration - getElapsed();
 	}
 
-	public long getDuration() {
+	public long getDuration()
+	{
 		return duration;
 	}
 
-	public void setDuration(long milliseconds) {
+	public void setDuration(long milliseconds)
+	{
 		this.duration = milliseconds;
 	}
 
-	public synchronized int getProgress() {
+	public synchronized int getProgress()
+	{
 		stopIfFinished();
 
 		double progress;
@@ -86,7 +95,8 @@ public class Timer {
 		return (int) (progress * progressMax);
 	}
 
-	public synchronized boolean isFinished() {
+	public synchronized boolean isFinished()
+	{
 		stopIfFinished();
 		return getRemaining() == 0;
 	}

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *******************************************************************************/
-package jhin3.soundboard;
+package com.github.hannesbraun.jhin3.soundboard;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,16 +25,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
 import javax.sound.sampled.UnsupportedAudioFileException;
-
 import org.json.JSONObject;
 
-public class SoundboardConfigHelper {
-
+public class SoundboardConfigHelper
+{
 	private JSONObject json;
 
-	public SoundboardConfigHelper(String path) {
+	public SoundboardConfigHelper(String path)
+	{
 		String jsonString = "{\"sounds\":{}}";
 
 		if (path != null) {
@@ -49,7 +48,8 @@ public class SoundboardConfigHelper {
 		json = new JSONObject(jsonString);
 	}
 
-	public Map<Character, Sound> getSounds() {
+	public Map<Character, Sound> getSounds()
+	{
 		Map<Character, Sound> sounds = Collections.synchronizedMap(new HashMap<Character, Sound>());
 
 		JSONObject jsonSounds = json.getJSONObject("sounds");

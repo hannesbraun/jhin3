@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *******************************************************************************/
-package jhin3.soundboard;
+package com.github.hannesbraun.jhin3.soundboard;
 
+import com.github.hannesbraun.jhin3.soundboard.ProcessingState.State;
 import java.io.File;
 import java.io.IOException;
-
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -26,14 +26,11 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableDouble;
 
-import jhin3.soundboard.ProcessingState.State;
-
-public class Sound {
-
+public class Sound
+{
 	private SoundType type;
 
 	private File file;
@@ -64,14 +61,16 @@ public class Sound {
 
 	private static float bufferLength = 200.0f;
 
-	public static void setBufferLength(float ms) {
+	public static void setBufferLength(float ms)
+	{
 		if (ms > 0.0f) {
 			// Negative value not possible
 			bufferLength = ms;
 		}
 	}
 
-	public Sound() {
+	public Sound()
+	{
 		this.description = "";
 		this.terminate = true;
 		this.type = SoundType.NORMAL;
@@ -83,57 +82,68 @@ public class Sound {
 		loaded = false;
 	}
 
-	public String getDescription() {
+	public String getDescription()
+	{
 		return description;
 	}
 
-	public double getProgress() {
+	public double getProgress()
+	{
 		return progress.getValue();
 	}
 
-	public State getState() {
+	public State getState()
+	{
 		return state.getState();
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(String description)
+	{
 		this.description = description;
 	}
 
-	public void setTerminate(boolean terminate) {
+	public void setTerminate(boolean terminate)
+	{
 		this.terminate = terminate;
 	}
 
-	public void setFadein(long fadein) {
+	public void setFadein(long fadein)
+	{
 		if (!loaded) {
 			this.fadein = fadein;
 		}
 	}
 
-	public void setFadeout(long fadeout) {
+	public void setFadeout(long fadeout)
+	{
 		if (!loaded) {
 			this.fadeout = fadeout;
 		}
 	}
 
-	public void setVolume(double volume) {
+	public void setVolume(double volume)
+	{
 		if (!loaded) {
 			this.volume = volume;
 		}
 	}
 
-	public void setPan(double pan) {
+	public void setPan(double pan)
+	{
 		if (!loaded) {
 			this.pan = pan;
 		}
 	}
 
-	public void setFile(File file) {
+	public void setFile(File file)
+	{
 		if (!loaded) {
 			this.file = file;
 		}
 	}
 
-	public void setType(SoundType type) {
+	public void setType(SoundType type)
+	{
 		if (!loaded) {
 			this.type = type;
 		}
@@ -141,19 +151,19 @@ public class Sound {
 
 	/**
 	 * Must be called before first use.
-	 * 
+	 *
 	 * After the sound is loaded, modification of some parameters is not
 	 * possible anymore to avoid unwanted behavior while a sound is playing.
-	 * 
+	 *
 	 * @throws IOException
 	 *             if an I/O error occurs
 	 * @throws UnsupportedAudioFileException
 	 *             if the file does not point to valid audio data recognized by
 	 *             the system
 	 */
-	public void load() throws UnsupportedAudioFileException, IOException {
+	public void load() throws UnsupportedAudioFileException, IOException
+	{
 		if (file != null) {
-
 			validateConfig();
 
 			// Buffer audio data
@@ -168,7 +178,8 @@ public class Sound {
 	/**
 	 * Adjusts fadein, fadeout, volume and pan in case of invalid values.
 	 */
-	private void validateConfig() {
+	private void validateConfig()
+	{
 		if (fadein < 0) {
 			fadein = 0;
 		}
@@ -188,10 +199,10 @@ public class Sound {
 		}
 	}
 
-	public void toggle() {
+	public void toggle()
+	{
 		if (loaded) {
-			if (type == SoundType.ONE_SHOT || state.isStopped()
-					|| state.isFadingOut()) {
+			if (type == SoundType.ONE_SHOT || state.isStopped() || state.isFadingOut()) {
 				// Start
 				start();
 			} else {
@@ -201,7 +212,8 @@ public class Sound {
 		}
 	}
 
-	private void start() {
+	private void start()
+	{
 		if (type == SoundType.ONE_SHOT && terminate) {
 			kill();
 		}
@@ -214,13 +226,13 @@ public class Sound {
 			state = new ProcessingState(State.PLAYING);
 		}
 
-		Thread processingThread = new Thread(
-				() -> process(state, kill, progress));
+		Thread processingThread = new Thread(() -> process(state, kill, progress));
 		processingThread.setPriority(Thread.MAX_PRIORITY);
 		processingThread.start();
 	}
 
-	private void stop() {
+	private void stop()
+	{
 		if (fadeout > 0) {
 			state.setState(State.FADEOUT);
 		} else {
@@ -228,24 +240,22 @@ public class Sound {
 		}
 	}
 
-	public void kill() {
+	public void kill()
+	{
 		kill.setTrue();
 		state.setState(State.STOPPED);
 		kill = new MutableBoolean(false);
 	}
 
-	private void process(ProcessingState state, MutableBoolean kill,
-			MutableDouble progress) {
+	private void process(ProcessingState state, MutableBoolean kill, MutableDouble progress)
+	{
 		try {
-			SourceDataLine sourceLine = AudioSystem
-					.getSourceDataLine(audioFormat);
-			FadeCalculator fadeinCalculator = new FadeCalculator(fadein,
-					volume);
+			SourceDataLine sourceLine = AudioSystem.getSourceDataLine(audioFormat);
+			FadeCalculator fadeinCalculator = new FadeCalculator(fadein, volume);
 			FadeCalculator fadeoutCalculator = null;
 
 			// Buffer size
-			int bufferSize = (int) (bufferLength
-					/ (1000.0f / audioFormat.getSampleRate()));
+			int bufferSize = (int) (bufferLength / (1000.0f / audioFormat.getSampleRate()));
 			bufferSize = matchFrameSize(bufferSize);
 			int fadeBufferSize = bufferSize / 2;
 			fadeBufferSize = matchFrameSize(fadeBufferSize);
@@ -256,13 +266,11 @@ public class Sound {
 			sourceLine.start();
 
 			// Set pan
-			FloatControl panControl = (FloatControl) sourceLine
-					.getControl(FloatControl.Type.PAN);
+			FloatControl panControl = (FloatControl) sourceLine.getControl(FloatControl.Type.PAN);
 			panControl.setValue((float) pan);
 
 			// Set gain
-			FloatControl gainControl = (FloatControl) sourceLine
-					.getControl(FloatControl.Type.MASTER_GAIN);
+			FloatControl gainControl = (FloatControl) sourceLine.getControl(FloatControl.Type.MASTER_GAIN);
 			if (state.isPlaying()) {
 				gainControl.setValue((float) volume);
 			} else if (state.isFadingIn()) {
@@ -270,8 +278,7 @@ public class Sound {
 				fadeinCalculator.start();
 			}
 
-			while ((len > 0 || type == SoundType.LOOP) && !state.isStopped()
-					&& kill.isFalse()) {
+			while ((len > 0 || type == SoundType.LOOP) && !state.isStopped() && kill.isFalse()) {
 				len = bufferSize;
 
 				if (state.isFadingIn()) {
@@ -287,8 +294,7 @@ public class Sound {
 					// Fade out
 					if (fadeoutCalculator == null) {
 						// Setup fadeout calculator
-						fadeoutCalculator = new FadeCalculator(fadeout,
-								gainControl.getValue());
+						fadeoutCalculator = new FadeCalculator(fadeout, gainControl.getValue());
 						fadeoutCalculator.start();
 					}
 
@@ -312,8 +318,7 @@ public class Sound {
 					sourceLine.write(audioData, offset, len);
 					offset += len;
 
-					progress.setValue(
-							(double) offset / (double) audioData.length);
+					progress.setValue((double) offset / (double) audioData.length);
 				} else {
 					if (type == SoundType.LOOP) {
 						// Loop: play again
@@ -337,7 +342,8 @@ public class Sound {
 		}
 	}
 
-	private int matchFrameSize(int value) {
+	private int matchFrameSize(int value)
+	{
 		return value - (value % audioFormat.getFrameSize());
 	}
 }

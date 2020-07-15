@@ -14,45 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *******************************************************************************/
-package jhin3.time.stopwatch;
+package com.github.hannesbraun.jhin3.soundboard;
 
-public class Stopwatch {
-
-	private long elapsed;
-
-	private boolean running;
-
-	private long startTimestamp;
-
-	public Stopwatch() {
-		elapsed = 0;
-		running = false;
-	}
-
-	public void toggle() {
-		if (running) {
-			elapsed = elapsed + (System.currentTimeMillis() - startTimestamp);
-		} else {
-			startTimestamp = System.currentTimeMillis();
-		}
-
-		running = !running;
-	}
-
-	public void reset() {
-		elapsed = 0;
-		running = false;
-	}
-
-	public long getElapsed() {
-		if (running) {
-			return elapsed + (System.currentTimeMillis() - startTimestamp);
-		} else {
-			return elapsed;
-		}
-	}
-
-	public boolean isRunning() {
-		return running;
-	}
-}
+public enum SoundType { NORMAL, LOOP, ONE_SHOT }

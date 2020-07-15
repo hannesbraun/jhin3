@@ -14,31 +14,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *******************************************************************************/
-package jhin3.tui;
+package com.github.hannesbraun.jhin3.tui;
 
-import java.io.IOException;
-
-import org.apache.commons.lang3.mutable.MutableBoolean;
-
+import com.github.hannesbraun.jhin3.soundboard.Soundboard;
+import com.github.hannesbraun.jhin3.tui.misc.JhinTerminalResizeListener;
+import com.github.hannesbraun.jhin3.tui.misc.ThemeLoader;
+import com.github.hannesbraun.jhin3.tui.window.SoundboardWindow;
+import com.github.hannesbraun.jhin3.tui.window.TimeWindow;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+import java.io.IOException;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 
-import jhin3.soundboard.Soundboard;
-import jhin3.tui.misc.JhinTerminalResizeListener;
-import jhin3.tui.misc.ThemeLoader;
-import jhin3.tui.window.SoundboardWindow;
-import jhin3.tui.window.TimeWindow;
-
-public class MainTUI {
-
+public class MainTUI
+{
 	private String theme;
 
-	public void exec(String configFile) {
-
+	public void exec(String configFile)
+	{
 		Soundboard soundboard = new Soundboard(configFile);
 
 		// GUI running flag: used for closing the windows
@@ -64,13 +61,11 @@ public class MainTUI {
 
 			gui.setTheme(themeLoader.getTheme());
 
-			soundboardWindow = new SoundboardWindow(terminal.getTerminalSize(),
-					soundboard, guiRunning);
+			soundboardWindow = new SoundboardWindow(terminal.getTerminalSize(), soundboard, guiRunning);
 			timeWindow = new TimeWindow(terminal.getTerminalSize(), guiRunning);
 
 			// Enable resizing of the inner windows
-			resizeListener = new JhinTerminalResizeListener(
-					gui.getScreen().getTerminalSize());
+			resizeListener = new JhinTerminalResizeListener(gui.getScreen().getTerminalSize());
 			resizeListener.addWindow(soundboardWindow);
 			resizeListener.addWindow(timeWindow);
 			terminal.addResizeListener(resizeListener);
@@ -90,7 +85,8 @@ public class MainTUI {
 		soundboard.kill();
 	}
 
-	public void setTheme(String theme) {
+	public void setTheme(String theme)
+	{
 		this.theme = theme;
 	}
 }

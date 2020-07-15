@@ -14,13 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *******************************************************************************/
-package jhin3.tui.window;
+package com.github.hannesbraun.jhin3.tui.window;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import org.apache.commons.lang3.mutable.MutableBoolean;
-
+import com.github.hannesbraun.jhin3.time.stopwatch.Stopwatch;
+import com.github.hannesbraun.jhin3.time.timer.Timer;
+import com.github.hannesbraun.jhin3.tui.misc.TimerFormatter;
+import com.github.hannesbraun.jhin3.tui.misc.TimerLengthValidator;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.Direction;
@@ -34,14 +33,12 @@ import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.gui2.dialogs.TextInputDialog;
 import com.googlecode.lanterna.gui2.dialogs.TextInputDialogBuilder;
 import com.googlecode.lanterna.input.KeyStroke;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 
-import jhin3.time.stopwatch.Stopwatch;
-import jhin3.time.timer.Timer;
-import jhin3.tui.misc.TimerFormatter;
-import jhin3.tui.misc.TimerLengthValidator;
-
-public class TimeWindow extends AbstractJhinWindow {
-
+public class TimeWindow extends AbstractJhinWindow
+{
 	private Timer timer;
 
 	private Stopwatch stopwatch1;
@@ -86,7 +83,8 @@ public class TimeWindow extends AbstractJhinWindow {
 
 	private Label stopwatchLabel4;
 
-	public TimeWindow(TerminalSize terminalSize, MutableBoolean guiRunning) {
+	public TimeWindow(TerminalSize terminalSize, MutableBoolean guiRunning)
+	{
 		super("Time", terminalSize);
 
 		// Timer initialization (default 20 minutes)
@@ -130,15 +128,15 @@ public class TimeWindow extends AbstractJhinWindow {
 	}
 
 	@Override
-	public void updatePosition(TerminalSize newSize) {
-		setPosition(new TerminalPosition(0,
-				newSize.getRows() - WindowLayoutHelper.getTimeHeight() - 2));
+	public void updatePosition(TerminalSize newSize)
+	{
+		setPosition(new TerminalPosition(0, newSize.getRows() - WindowLayoutHelper.getTimeHeight() - 2));
 	}
 
 	@Override
-	public void updateSize(TerminalSize newSize) {
-		setSize(new TerminalSize(newSize.getColumns() - 2,
-				WindowLayoutHelper.getTimeHeight()));
+	public void updateSize(TerminalSize newSize)
+	{
+		setSize(new TerminalSize(newSize.getColumns() - 2, WindowLayoutHelper.getTimeHeight()));
 
 		if (timerProgressBar != null) {
 			int timerProgressBarWidth = (newSize.getColumns() - 2) / 2 + 1;
@@ -146,20 +144,19 @@ public class TimeWindow extends AbstractJhinWindow {
 		}
 	}
 
-	private void addTimerControl() {
+	private void addTimerControl()
+	{
 		// Create panel and center in main layout
 		timerPanel = new Panel();
 		timerPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
-		timerPanel.setLayoutData(GridLayout.createLayoutData(Alignment.CENTER,
-				Alignment.CENTER, true, false));
+		timerPanel.setLayoutData(GridLayout.createLayoutData(Alignment.CENTER, Alignment.CENTER, true, false));
 
 		// Create text panel and center in the timer section
 		Panel textPanel = new Panel();
 		LinearLayout textLayout = new LinearLayout(Direction.HORIZONTAL);
 		textLayout.setSpacing(2);
 		textPanel.setLayoutManager(textLayout);
-		textPanel.setLayoutData(
-				LinearLayout.createLayoutData(LinearLayout.Alignment.Center));
+		textPanel.setLayoutData(LinearLayout.createLayoutData(LinearLayout.Alignment.Center));
 
 		timerProgressBar = new ProgressBar();
 		timerProgressBar.setLabelFormat("");
@@ -179,14 +176,14 @@ public class TimeWindow extends AbstractJhinWindow {
 		timerPanel.addComponent(textPanel);
 	}
 
-	private void addCurrentDateTime() {
+	private void addCurrentDateTime()
+	{
 		LocalDateTime dateTime = LocalDateTime.now();
 
 		// Create panel and center in main layout
 		dateTimePanel = new Panel();
 		dateTimePanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
-		dateTimePanel.setLayoutData(GridLayout.createLayoutData(
-				Alignment.CENTER, Alignment.CENTER, false, false));
+		dateTimePanel.setLayoutData(GridLayout.createLayoutData(Alignment.CENTER, Alignment.CENTER, false, false));
 
 		currentDate = new Label(dateTime.format(dateFormatter));
 		currentTime = new Label(dateTime.format(timeFormatter));
@@ -195,12 +192,12 @@ public class TimeWindow extends AbstractJhinWindow {
 		dateTimePanel.addComponent(currentTime);
 	}
 
-	private void addStopwatches() {
+	private void addStopwatches()
+	{
 		// Create panel and center in main layout
 		stopwatchPanel = new Panel();
 		stopwatchPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
-		stopwatchPanel.setLayoutData(GridLayout.createLayoutData(
-				Alignment.CENTER, Alignment.CENTER, true, false));
+		stopwatchPanel.setLayoutData(GridLayout.createLayoutData(Alignment.CENTER, Alignment.CENTER, true, false));
 
 		// Create horizontal panels
 		Panel panel1 = new Panel();
@@ -226,7 +223,8 @@ public class TimeWindow extends AbstractJhinWindow {
 		stopwatchPanel.addComponent(panel2);
 	}
 
-	private void mainUpdateLoop() {
+	private void mainUpdateLoop()
+	{
 		do {
 			// Timer
 			updateTimer();
@@ -250,19 +248,17 @@ public class TimeWindow extends AbstractJhinWindow {
 		close();
 	}
 
-	private void updateTimer() {
+	private void updateTimer()
+	{
 		WindowBasedTextGUI gui = getTextGUI();
 		if (gui != null) {
 			try {
 				gui.getGUIThread().invokeLater(() -> {
 					timerProgressBar.setValue(timer.getProgress());
 
-					timerTotal.setText("[T] "
-							+ TimerFormatter.format(timer.getDuration()));
-					timerElapsed.setText(
-							"[E] " + TimerFormatter.format(timer.getElapsed()));
-					timerRemaining.setText("[R] "
-							+ TimerFormatter.format(timer.getRemaining()));
+					timerTotal.setText("[T] " + TimerFormatter.format(timer.getDuration()));
+					timerElapsed.setText("[E] " + TimerFormatter.format(timer.getElapsed()));
+					timerRemaining.setText("[R] " + TimerFormatter.format(timer.getRemaining()));
 				});
 			} catch (IllegalStateException e) {
 				// This is fine, just do nothing in case the gui is not running
@@ -270,7 +266,8 @@ public class TimeWindow extends AbstractJhinWindow {
 		}
 	}
 
-	private void updateDateTime() {
+	private void updateDateTime()
+	{
 		// Write to console
 		WindowBasedTextGUI gui = getTextGUI();
 		if (gui != null) {
@@ -286,19 +283,16 @@ public class TimeWindow extends AbstractJhinWindow {
 		}
 	}
 
-	private void updateStopwatches() {
+	private void updateStopwatches()
+	{
 		WindowBasedTextGUI gui = getTextGUI();
 		if (gui != null) {
 			try {
 				gui.getGUIThread().invokeLater(() -> {
-					stopwatchLabel1.setText("[1] "
-							+ TimerFormatter.format(stopwatch1.getElapsed()));
-					stopwatchLabel2.setText("[2] "
-							+ TimerFormatter.format(stopwatch2.getElapsed()));
-					stopwatchLabel3.setText("[3] "
-							+ TimerFormatter.format(stopwatch3.getElapsed()));
-					stopwatchLabel4.setText("[4] "
-							+ TimerFormatter.format(stopwatch4.getElapsed()));
+					stopwatchLabel1.setText("[1] " + TimerFormatter.format(stopwatch1.getElapsed()));
+					stopwatchLabel2.setText("[2] " + TimerFormatter.format(stopwatch2.getElapsed()));
+					stopwatchLabel3.setText("[3] " + TimerFormatter.format(stopwatch3.getElapsed()));
+					stopwatchLabel4.setText("[4] " + TimerFormatter.format(stopwatch4.getElapsed()));
 				});
 			} catch (IllegalStateException e) {
 				// This is fine, just do nothing in case the gui is not running
@@ -307,47 +301,47 @@ public class TimeWindow extends AbstractJhinWindow {
 	}
 
 	@Override
-	public boolean handleInput(KeyStroke key) {
+	public boolean handleInput(KeyStroke key)
+	{
 		// Base condition: no modification key is pressed
-		if (!key.isAltDown() && !key.isCtrlDown() && !key.isShiftDown()
-				&& key.getCharacter() != null) {
+		if (!key.isAltDown() && !key.isCtrlDown() && !key.isShiftDown() && key.getCharacter() != null) {
 			switch (key.getCharacter()) {
-				// Timer
-				case 's' :
-					timer.toggle();
-					return true;
-				case 'c' :
-					timer.reset();
-					return true;
-				case 'x' :
-					setTimerLength();
-					return true;
+			// Timer
+			case 's':
+				timer.toggle();
+				return true;
+			case 'c':
+				timer.reset();
+				return true;
+			case 'x':
+				setTimerLength();
+				return true;
 
-				// Stopwatches
-				case '1' :
-					stopwatch1.toggle();
-					return true;
-				case '2' :
-					stopwatch2.toggle();
-					return true;
-				case '3' :
-					stopwatch3.toggle();
-					return true;
-				case '4' :
-					stopwatch4.toggle();
-					return true;
-				case 'q' :
-					stopwatch1.reset();
-					return true;
-				case 'w' :
-					stopwatch2.reset();
-					return true;
-				case 'e' :
-					stopwatch3.reset();
-					return true;
-				case 'r' :
-					stopwatch4.reset();
-					return true;
+			// Stopwatches
+			case '1':
+				stopwatch1.toggle();
+				return true;
+			case '2':
+				stopwatch2.toggle();
+				return true;
+			case '3':
+				stopwatch3.toggle();
+				return true;
+			case '4':
+				stopwatch4.toggle();
+				return true;
+			case 'q':
+				stopwatch1.reset();
+				return true;
+			case 'w':
+				stopwatch2.reset();
+				return true;
+			case 'e':
+				stopwatch3.reset();
+				return true;
+			case 'r':
+				stopwatch4.reset();
+				return true;
 			}
 		}
 
@@ -355,13 +349,13 @@ public class TimeWindow extends AbstractJhinWindow {
 		return super.handleInput(key);
 	}
 
-	private void setTimerLength() {
+	private void setTimerLength()
+	{
 		getTextGUI().getGUIThread().invokeLater(() -> {
 			// Set dialog preferences
 			TextInputDialogBuilder dialogBuilder = new TextInputDialogBuilder();
 			dialogBuilder.setTitle("Set new timer length");
-			dialogBuilder
-					.setInitialContent(timerTotal.getText().substring(4, 12));
+			dialogBuilder.setInitialContent(timerTotal.getText().substring(4, 12));
 			dialogBuilder.setPasswordInput(false);
 			dialogBuilder.setTextBoxSize(new TerminalSize(8, 1));
 			dialogBuilder.setValidator(new TimerLengthValidator());

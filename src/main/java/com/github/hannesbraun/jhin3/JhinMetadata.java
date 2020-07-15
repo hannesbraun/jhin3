@@ -14,12 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *******************************************************************************/
-package jhin3.tui.window;
+package com.github.hannesbraun.jhin3;
 
-public class WindowLayoutHelper {
-
-	public static int getTimeHeight() {
-		return 2;
-	}
-
+public class JhinMetadata
+{
+	public static String VERSION = "2020.0.1";
 }

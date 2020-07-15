@@ -14,25 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *******************************************************************************/
-package jhin3.tui.misc;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+package com.github.hannesbraun.jhin3.tui.misc;
 
 import com.googlecode.lanterna.bundle.LanternaThemes;
 import com.googlecode.lanterna.graphics.PropertyTheme;
 import com.googlecode.lanterna.graphics.Theme;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
-public class ThemeLoader {
-
+public class ThemeLoader
+{
 	private String name;
 
 	private final String defaultThemeName = "2019";
 
 	private Theme theme;
 
-	public static boolean isThemeSupported(String name) {
+	public static boolean isThemeSupported(String name)
+	{
 		switch (name) {
 		case "blaster":
 		case "defrost":
@@ -46,13 +46,14 @@ public class ThemeLoader {
 
 	/**
 	 * Constructs a new theme loader. This will create the theme object instantly.
-	 * 
+	 *
 	 * If no name was provided, a default theme will be used. If the selected theme
 	 * is not available, some fallback options will be used.
-	 * 
+	 *
 	 * @param name the theme name
 	 */
-	public ThemeLoader(String name) {
+	public ThemeLoader(String name)
+	{
 		if (name != null && name != "") {
 			this.name = name;
 		} else {
@@ -83,7 +84,8 @@ public class ThemeLoader {
 	 * case of an error while loading the theme, the lanterna theme
 	 * "businessmachine" will be applied (if possible).
 	 */
-	private void loadCustomTheme() {
+	private void loadCustomTheme()
+	{
 		Properties properties = new Properties();
 
 		try {
@@ -102,7 +104,8 @@ public class ThemeLoader {
 		}
 	}
 
-	public Theme getTheme() {
+	public Theme getTheme()
+	{
 		return theme;
 	}
 }
