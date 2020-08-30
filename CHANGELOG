@@ -5,6 +5,10 @@
 Copyright 2020 Hannes Braun
 
 
+Version 2020.0.2 (October 10, 2020)
+-------------------------------------
+* Added a "--version" option.
+
 Version 2020.0.1 (June 9, 2020)
 -------------------------------------
 * The command line parameter "-c" is now optional.

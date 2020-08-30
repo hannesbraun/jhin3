@@ -36,6 +36,7 @@ public class Main
 		options.addOption("c", "config", true, "the Jhin3 config file");
 		options.addOption("b", "buffer", true, "buffer size in ms");
 		options.addOption("t", "theme", true, "color theme to use");
+		options.addOption(null, "version", false, "only print the header (including the version number)");
 
 		CommandLineParser parser = new DefaultParser();
 		CommandLine cmd;
@@ -44,6 +45,11 @@ public class Main
 
 		try {
 			cmd = parser.parse(options, args);
+
+			if (cmd.hasOption("version")) {
+				// Header including the version number has already been printed
+				return;
+			}
 
 			if (cmd.hasOption('b')) {
 				// Set buffer length for audio
