@@ -18,5 +18,5 @@ package com.github.hannesbraun.jhin3;
 
 public class JhinMetadata
 {
-	public static String VERSION = "2020.0.1";
+	public static String VERSION = "2020.0.2";
 }
