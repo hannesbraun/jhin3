@@ -95,7 +95,7 @@ public class SoundboardWindow extends AbstractJhinWindow
 	public void updateSize(TerminalSize newSize)
 	{
 		int rows = newSize.getRows() - WindowLayoutHelper.getTimeHeight() - 4;
-		setSize(new TerminalSize(newSize.getColumns() - 2, rows));
+		setFixedSize(new TerminalSize(newSize.getColumns() - 2, rows));
 	}
 
 	@Override

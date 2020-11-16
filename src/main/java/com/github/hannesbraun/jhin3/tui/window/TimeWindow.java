@@ -136,7 +136,7 @@ public class TimeWindow extends AbstractJhinWindow
 	@Override
 	public void updateSize(TerminalSize newSize)
 	{
-		setSize(new TerminalSize(newSize.getColumns() - 2, WindowLayoutHelper.getTimeHeight()));
+		setFixedSize(new TerminalSize(newSize.getColumns() - 2, WindowLayoutHelper.getTimeHeight()));
 
 		if (timerProgressBar != null) {
 			int timerProgressBarWidth = (newSize.getColumns() - 2) / 2 + 1;

@@ -22,6 +22,8 @@ import com.github.hannesbraun.jhin3.tui.misc.ThemeLoader;
 import com.github.hannesbraun.jhin3.tui.window.SoundboardWindow;
 import com.github.hannesbraun.jhin3.tui.window.TimeWindow;
 import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.gui2.DefaultWindowManager;
+import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.screen.TerminalScreen;
@@ -56,7 +58,7 @@ public class MainTUI
 			// Create basic tui elements
 			terminal = defaultTerminalFactory.createTerminal();
 			screen = new TerminalScreen(terminal);
-			gui = new MultiWindowTextGUI(screen, TextColor.ANSI.BLACK);
+			gui = new MultiWindowTextGUI(screen, new DefaultWindowManager(), new EmptySpace(TextColor.ANSI.BLACK));
 			screen.startScreen();
 
 			gui.setTheme(themeLoader.getTheme());
